@@ -15,6 +15,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          # While the code repositories are private, add a token that can read them as the secret SUBMODULE_TOKEN.
+          # Once they are public, nothing is needed.
+          token: ${{ secrets.SUBMODULE_TOKEN || github.token }}
       - uses: docker/setup-buildx-action@v3
       - name: Build every server download
         run: Source/Packaging/build-all.sh "${GITHUB_REF_NAME}"
