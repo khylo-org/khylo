@@ -1,0 +1,16 @@
+# Only the two app folders go into the build; never the library database, builds or backups
+*
+!Source/Server
+!Source/Web
+!Source/Packaging/Docker/entrypoint.sh
+!Source/Packaging/Shared/khylo-mount
+
+**/.git
+**/bin
+**/obj
+Source/Server/tests
+Source/Server/fuzz
+Source/Server/deployment
+Source/Web/node_modules
+Source/Web/dist
+Source/Web/.cache

@@ -1,0 +1,11 @@
+# Built downloads and local data
+Source/Packaging/*/builds/
+Source/Packaging/SHA256SUMS.txt
+Source/Packaging/Windows/khylo_server/
+Source/Packaging/Docker/test-media/
+
+# Editors and systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,14 @@
+# Only what the download is built from
+*
+!Source/Server
+!Source/Web
+!Source/Packaging/Mac/files
+
+**/.git
+**/bin
+**/obj
+Source/Server/tests
+Source/Server/fuzz
+Source/Web/node_modules
+Source/Web/dist
+Source/Web/.cache

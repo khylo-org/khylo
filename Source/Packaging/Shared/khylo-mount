@@ -1,0 +1,83 @@
+#!/bin/bash
+# Connects and disconnects the network shares Khylo asks for, and nothing else.
+#
+# Khylo runs as an ordinary user. Mounting needs more power than that, so Khylo calls this one small program
+# (through sudo) with a share's details. It only accepts:
+#   - SMB (cifs) or NFS shares,
+#   - connected to a folder directly under /shares,
+#   - with a short list of known-safe options (and a login file inside /config).
+# Anything else is refused, so even if Khylo were tricked it could not use this to mount arbitrary things.
+set -euo pipefail
+
+fail() { echo "khylo-mount: $1" >&2; exit 2; }
+
+# Where shares go and where logins are kept. The Docker image uses /shares and /config; the Linux package writes its
+# own folders to /etc/khylo/mount.conf (owned by root, so Khylo itself can't change them).
+SHARES=/shares
+CONFIG_DIR=/config
+if [[ -r /etc/khylo/mount.conf ]]; then
+    conf_shares=$(sed -n 's/^SHARES=//p' /etc/khylo/mount.conf | head -n1)
+    conf_config=$(sed -n 's/^CONFIG_DIR=//p' /etc/khylo/mount.conf | head -n1)
+    [[ "$conf_shares" =~ ^/[A-Za-z0-9._/-]+$ ]] && SHARES="$conf_shares"
+    [[ "$conf_config" =~ ^/[A-Za-z0-9._/-]+$ ]] && CONFIG_DIR="$conf_config"
+fi
+KHYLO_UID=$(id -u khylo)
+KHYLO_GID=$(id -g khylo)
+
+TARGET_PATTERN="^${SHARES}/[A-Za-z0-9._ -]+\$"
+valid_target() {
+    [[ "$1" =~ $TARGET_PATTERN ]] && [[ "$1" != *..* ]] && [[ -d "$1" ]] && [[ ! -L "$1" ]]
+}
+
+cmd="${1:-}"
+case "$cmd" in
+    mount)
+        type="${2:-}"; source="${3:-}"; target="${4:-}"; options="${5:-}"
+        [[ "$type" == "cifs" || "$type" == "nfs" ]] || fail "only SMB and NFS shares can be connected"
+        valid_target "$target" || fail "shares can only be connected inside $SHARES"
+
+        final=()
+        IFS=',' read -r -a given <<< "$options"
+        for opt in "${given[@]}"; do
+            case "$type" in
+                cifs)
+                    case "$opt" in
+                        ro|rw|soft|nounix|noserverino|iocharset=utf8) final+=("$opt") ;;
+                        vers=[0-9].[0-9]|vers=[0-9]) final+=("$opt") ;;
+                        uid=*|gid=*) ;;  # replaced below: files belong to Khylo's user
+                        credentials=$CONFIG_DIR/*)
+                            file="${opt#credentials=}"
+                            [[ "$file" != *..* && -f "$file" && ! -L "$file" ]] || fail "bad login file"
+                            final+=("$opt") ;;
+                        *) fail "option not allowed: $opt" ;;
+                    esac ;;
+                nfs)
+                    case "$opt" in
+                        ro|rw|soft|nolock) final+=("$opt") ;;
+                        timeo=[0-9]*|retrans=[0-9]*|vers=[0-9]|vers=[0-9].[0-9]) final+=("$opt") ;;
+                        *) fail "option not allowed: $opt" ;;
+                    esac ;;
+            esac
+        done
+
+        if [[ "$type" == "cifs" ]]; then
+            [[ "$source" =~ ^//[A-Za-z0-9._-]+/[^[:cntrl:],]+$ ]] || fail "bad share address"
+            final+=("uid=$KHYLO_UID" "gid=$KHYLO_GID")
+        else
+            [[ "$source" =~ ^[A-Za-z0-9._-]+:/[^[:cntrl:],]*$ ]] || fail "bad share address"
+        fi
+        # Whatever is connected can hold files, but never programs or devices
+        final+=("nosuid" "nodev" "noexec")
+
+        joined=$(IFS=','; echo "${final[*]}")
+        exec mount -t "$type" "$source" "$target" -o "$joined"
+        ;;
+    umount)
+        target="${2:-}"
+        valid_target "$target" || fail "shares can only be disconnected inside $SHARES"
+        exec umount -l "$target"
+        ;;
+    *)
+        fail "usage: khylo-mount mount <cifs|nfs> <source> <target> <options> | umount <target>"
+        ;;
+esac

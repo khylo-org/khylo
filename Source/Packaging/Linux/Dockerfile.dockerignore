@@ -1,0 +1,16 @@
+# Only what the packages are built from
+*
+!Source/Server
+!Source/Web
+!Source/Packaging/Shared/khylo-mount
+!Source/Packaging/Linux/files
+
+**/.git
+**/bin
+**/obj
+Source/Server/tests
+Source/Server/fuzz
+Source/Server/deployment
+Source/Web/node_modules
+Source/Web/dist
+Source/Web/.cache

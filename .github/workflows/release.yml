@@ -1,0 +1,30 @@
+name: Release
+
+# Builds every server download when a build tag is pushed (for example DEV-V26.10.101) and attaches them to a release.
+on:
+  push:
+    tags: ['DEV-V*']
+
+permissions:
+  contents: write
+
+jobs:
+  servers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: docker/setup-buildx-action@v3
+      - name: Build every server download
+        run: Source/Packaging/build-all.sh "${GITHUB_REF_NAME}"
+      - name: Checksums
+        run: Source/Packaging/checksums.sh
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "Khylo ${GITHUB_REF_NAME}" \
+            --notes "Downloads for every system. Install guides: https://github.com/${GITHUB_REPOSITORY}/tree/main/Install" \
+            Source/Packaging/*/builds/* Source/Packaging/SHA256SUMS.txt

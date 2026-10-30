@@ -1,0 +1,6 @@
+[submodule "Source/Server"]
+	path = Source/Server
+	url = https://github.com/khylo-org/khylo-server.git
+[submodule "Source/Web"]
+	path = Source/Web
+	url = https://github.com/khylo-org/khylo-web.git

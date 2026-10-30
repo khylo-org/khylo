@@ -1,0 +1,55 @@
+# Khylo Server
+#
+#   docker compose up -d
+#
+# Then open http://<this machine>:8096 and follow the setup.
+#
+# Media on a NAS or another computer: when you add a library, choose "Network share" in the folder
+# picker and enter the share (\\nas\Movies for Windows/SMB, nas:/volume1/Movies for NFS). Khylo
+# connects it and keeps it connected. Nothing to set up here.
+
+services:
+  khylo:
+    image: khylo/server:latest
+    build:
+      context: ../..
+      dockerfile: Source/Packaging/Docker/Dockerfile
+    container_name: khylo
+    restart: unless-stopped
+    ports:
+      - "8096:8096"
+      # Khylo apps on your network find the server through this UDP port (see "Finding the server" in the README)
+      - "7360:7360/udp"
+    environment:
+      - TZ=America/Chicago
+    # Hardware transcoding: give Khylo's user access to the graphics device (Intel / AMD), e.g.
+    # group_add:
+    #   - video
+    #   - render
+    # Khylo itself runs as an ordinary user. These lines only let its small mount helper connect the Windows/SMB and
+    # NFS shares you add in the folder picker. Never adding network shares? Delete these four lines (cap_add and
+    # security_opt) and the container will have no extra privileges at all.
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      # Settings, users and the library database
+      - ./khylo-config:/config
+      # Artwork and temporary transcodes; safe to delete
+      - ./khylo-cache:/cache
+      # Media folders on this machine (optional). "this machine's folder:where Khylo sees it";
+      # ":ro" keeps your files safe
+      - /path/to/media:/media:ro
+    # Hardware transcoding, Intel or AMD graphics (Linux hosts): uncomment
+    # devices:
+    #   - /dev/dri:/dev/dri
+    # Hardware transcoding, NVIDIA graphics (needs the NVIDIA Container Toolkit): uncomment
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+# Stops on removal; an upgrade restarts it from the new postinst
+if [ "$1" = "remove" ] && [ -d /run/systemd/system ]; then
+    systemctl stop khylo || true
+    systemctl disable khylo >/dev/null 2>&1 || true
+fi

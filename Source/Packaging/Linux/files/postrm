@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+# Your library and settings in /var/lib/khylo are never deleted automatically, even on purge.
+if [ "$1" = "purge" ]; then
+    echo "Khylo's library and settings were kept in /var/lib/khylo. Delete that folder yourself if you want them gone."
+fi
+if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload || true
+fi

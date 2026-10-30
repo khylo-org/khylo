@@ -1,0 +1,21 @@
+[Unit]
+Description=Khylo Server
+Documentation=https://github.com/khylo-org/khylo
+After=network-online.target remote-fs.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=khylo
+Group=khylo
+EnvironmentFile=/etc/khylo/khylo.env
+ExecStart=/opt/khylo/khylo --ffmpeg /usr/lib/khylo/ffmpeg
+WorkingDirectory=/var/lib/khylo
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+# Khylo asks a small program (through sudo) to connect network shares, so privilege gain must stay allowed
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

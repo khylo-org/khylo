@@ -1,0 +1,34 @@
+name: Bug report
+description: Something about installing or running Khylo isn't working
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Khylo version
+      description: Shown in the dashboard, for example DEV-V26.10.101
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How is Khylo installed?
+      options: [Windows, Mac, Linux package, Proxmox, Docker, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log lines
+      description: See the troubleshooting guide for where the logs are. Remove anything private first.
+      render: shell
