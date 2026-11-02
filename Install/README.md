@@ -53,6 +53,7 @@ the web port later in the dashboard under **Networking**.
 ## More guides
 
 - [First-time setup](first-setup.md): the setup steps, how to organize your media, and connecting apps.
+- [Moving your watch history](import-watch-history.md): bring everyone's history across from Plex or another server.
 - [Network drives](network-drives.md): SMB and NFS shares on every system.
 - [Away from home](remote-access.md): HTTPS, reverse proxies, and watching outside your network.
 - [Hardware transcoding](hardware-transcoding.md): Intel, AMD, NVIDIA and Apple graphics.

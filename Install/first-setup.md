@@ -17,7 +17,7 @@ step can be skipped and done later from the dashboard.
    switches without signing in again. Kids profiles can be limited to ratings and libraries you choose; only an administrator
    can change those limits.
 5. **Moving from Plex or another server?** Bring everyone's watch history, favorites and music plays across. Connect to the old
-   server, choose who goes where, preview, then import. (Skip this on a fresh start.)
+   server, choose who goes where, preview, then import. (Skip this on a fresh start.) Step by step, with pictures: [moving your watch history](import-watch-history.md).
 6. **Khylo TV.** Always-on TV channels built from your own library. Turn on the channels you like.
 7. **Live TV.** Optional: add an IPTV playlist (M3U) or an HDHomeRun tuner and an XMLTV guide.
 8. **Signing in your TVs.** How to add a TV with a short code or a QR code.

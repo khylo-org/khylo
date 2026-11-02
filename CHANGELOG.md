@@ -5,6 +5,13 @@
 ### Build DEV-V26.11.02.02
 **New**
 - **Server — A normal installer for Windows.** Khylo Server for Windows now comes as a regular setup program you double-click, instead of a script. It puts Khylo in your Start menu and in Windows' list of installed apps, starts it with your PC, and lets you uninstall it from Settings like any other app. You can choose whether Khylo runs as the system or as your own Windows account, which is what network drives need. Windows may warn that it doesn't know the publisher; choose More info, then Run anyway. A portable zip is still available if you just want to try it without installing anything.
+**Fixed**
+- **Web — Staying signed in.** Refreshing the page no longer signs you out. This also fixes switching profiles, which dropped you back at the sign-in screen: choosing a home profile now switches straight to it.
+- **Web — Setup guide and help links.** The Setup Guide button in the first-time setup, and the help links in the dashboard, now open Khylo's real guides instead of a page that doesn't exist.
+- **Server — The address for your home network.** The remote access step in setup used to tell you to connect to an address that only works on the server itself. It now shows this computer's real address on your home network (something like http://192.168.1.20:8096), which is what your phone and TV need. The last setup step shows it too.
+**Improved**
+- **Web — A calmer first-time setup.** The setup screens have a cleaner look: one simple column, clearer fields and buttons, and nothing flashy.
+- **Web — Moving your watch history, explained.** There's now a step-by-step guide with pictures for bringing everyone's history over from Plex, including exactly where to find your Plex token.
 
 ### Build DEV-V26.11.02.01
 **Improved**
