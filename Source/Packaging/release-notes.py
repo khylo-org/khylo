@@ -2,9 +2,9 @@
 """Writes the text for a release page on GitHub: a centered row of download buttons at the very top (the usual systems
 first, then Arm, Proxmox and Docker), a few notes, then what's new (taken from CHANGELOG.md).
 
-    Servers/release-notes.py DEV-V26.11.02.02 > notes.md
+    Source/Packaging/release-notes.py DEV-V26.11.02.02 > notes.md
 
-Normally you don't run this yourself: Servers/publish-release.sh uploads the downloads and runs this, so the page always
+Normally you don't run this yourself: Source/Packaging/publish-release.sh uploads the downloads and runs this, so the page always
 matches the files. Run from the repository root. iOS and Android entries are left out: the public project is the server only.
 """
 import re
@@ -15,7 +15,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 build = sys.argv[1] if len(sys.argv) > 1 else None
 if not build or not re.fullmatch(r'DEV-V\d{2}\.\d{2}\.\d{2}\.\d{2}', build):
-    sys.exit('Usage: Servers/release-notes.py DEV-V26.11.02.02')
+    sys.exit('Usage: Source/Packaging/release-notes.py DEV-V26.11.02.02')
 
 version = build[len('DEV-V'):]
 repo = 'khylo-org/khylo'

@@ -7,7 +7,7 @@
 #
 # Needs the gh command signed in as the account that owns khylo-org/khylo. Only files for this build are uploaded.
 set -euo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 repo=khylo-org/khylo
 build=${1:-$(grep -m1 -oE 'DEV-V[0-9]{2}\.[0-9]{2}\.[0-9]{2}\.[0-9]{2}' CHANGELOG.md)}

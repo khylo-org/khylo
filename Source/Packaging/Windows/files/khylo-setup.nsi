@@ -61,8 +61,10 @@ VIAddVersionKey "LegalCopyright" "Khylo is free software, released under the GNU
 !define MUI_FINISHPAGE_RUN_FUNCTION OpenKhylo
 
 Var AccountDialog
+Var RadioLogon
 Var RadioSystem
 Var RadioUser
+Var RunMode
 Var UserBox
 Var PasswordBox
 Var RunAsUser
@@ -116,42 +118,60 @@ FunctionEnd
 ; ---- Who Khylo runs as ---------------------------------------------------------------------------------------------------
 
 Function AccountPage
-  !insertmacro MUI_HEADER_TEXT "Who should Khylo run as?" "Choose this once. You can run this setup again to change it."
+  !insertmacro MUI_HEADER_TEXT "How should Khylo run?" "Choose this once. You can run this setup again to change it."
   nsDialogs::Create 1018
   Pop $AccountDialog
 
-  ${NSD_CreateRadioButton} 0 0 100% 12u "The system (recommended)"
+  ${NSD_CreateRadioButton} 0 0 100% 11u "As the system, starting with the PC (recommended)"
   Pop $RadioSystem
   ${NSD_AddStyle} $RadioSystem ${WS_GROUP}
-  ${NSD_CreateLabel} 12u 13u 94% 24u "Khylo starts with Windows before anyone logs in. Works for drives inside this PC and for USB drives."
+  ${NSD_CreateLabel} 12u 11u 94% 22u "Khylo starts before anyone logs in and keeps running. In the folder picker, the network drives mapped on this PC are listed so you can connect each one with a click."
   Pop $0
 
-  ${NSD_CreateRadioButton} 0 42u 100% 12u "My Windows account (for media on a network share, such as \\nas\Movies)"
+  ${NSD_CreateRadioButton} 0 36u 100% 11u "As me, while I'm logged in"
+  Pop $RadioLogon
+  ${NSD_CreateLabel} 12u 47u 94% 22u "Khylo runs in your own session, so your mapped drive letters (X:, Y:) work directly. It only runs while you are logged in."
+  Pop $0
+
+  ${NSD_CreateRadioButton} 0 72u 100% 11u "As me, even when I'm logged out"
   Pop $RadioUser
-  ${NSD_CreateLabel} 12u 55u 94% 24u "Windows only passes your saved network logins to programs that run as you. Windows keeps the password; Khylo never sees it."
+  ${NSD_CreateLabel} 12u 83u 94% 22u "Starts with the PC and needs your Windows password once. Uses addresses like \\nas\Movies, not drive letters."
   Pop $0
 
-  ${NSD_CreateLabel} 12u 84u 34u 10u "Account:"
+  ${NSD_CreateLabel} 0 110u 34u 10u "Account:"
   Pop $0
-  ${NSD_CreateText} 48u 82u 130u 12u "$RunAsUser"
+  ${NSD_CreateText} 36u 108u 130u 12u "$RunAsUser"
   Pop $UserBox
-  ${NSD_CreateLabel} 12u 100u 34u 10u "Password:"
+  ${NSD_CreateLabel} 0 126u 34u 10u "Password:"
   Pop $0
-  ${NSD_CreatePassword} 48u 98u 130u 12u ""
+  ${NSD_CreatePassword} 36u 124u 130u 12u ""
   Pop $PasswordBox
+  ${NSD_CreateLabel} 172u 126u 120u 10u "(only for the third choice)"
+  Pop $0
 
   ${NSD_Check} $RadioSystem
   nsDialogs::Show
 FunctionEnd
 
 Function AccountPageLeave
-  ${NSD_GetState} $RadioUser $0
+  StrCpy $RunMode "system"
+  ${NSD_GetState} $RadioLogon $0
+  ${NSD_GetState} $RadioUser $1
   ${If} $0 == ${BST_CHECKED}
+    StrCpy $RunMode "logon"
+    ${NSD_GetText} $UserBox $RunAsUser
+    StrCpy $RunAsPassword ""
+    ${If} $RunAsUser == ""
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Please enter your Windows account, or choose a different way to run Khylo."
+      Abort
+    ${EndIf}
+  ${ElseIf} $1 == ${BST_CHECKED}
+    StrCpy $RunMode "always"
     ${NSD_GetText} $UserBox $RunAsUser
     ${NSD_GetText} $PasswordBox $RunAsPassword
     ${If} $RunAsUser == ""
     ${OrIf} $RunAsPassword == ""
-      MessageBox MB_OK|MB_ICONEXCLAMATION "Please enter your Windows account and password, or choose The system."
+      MessageBox MB_OK|MB_ICONEXCLAMATION "Please enter your Windows account and password, or choose a different way to run Khylo."
       Abort
     ${EndIf}
   ${Else}
@@ -167,6 +187,7 @@ Section "Khylo Server" SecMain
   SetRegView 64
   Call EnsureKhyloFolder
   ${If} ${Silent}
+    StrCpy $RunMode "system"
     StrCpy $RunAsUser ""
     StrCpy $RunAsPassword ""
   ${EndIf}
@@ -227,18 +248,25 @@ Section "Khylo Server" SecMain
   Call WaitForKhylo
 SectionEnd
 
-; Starts at boot and starts again if it ever stops
+; Starts with the PC (or at login) and starts again within five minutes if it ever stops
 Function CreateStartupTask
   GetTempFileName $1
   FileOpen $0 $1 w
   FileWriteUTF16LE /BOM $0 '<?xml version="1.0" encoding="UTF-16"?>$\r$\n'
   FileWriteUTF16LE $0 '<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">$\r$\n'
   FileWriteUTF16LE $0 '  <RegistrationInfo><Description>Khylo Server</Description></RegistrationInfo>$\r$\n'
-  FileWriteUTF16LE $0 '  <Triggers><BootTrigger><Enabled>true</Enabled></BootTrigger><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT5M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
-  ${If} $RunAsUser == ""
-    FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+  ${If} $RunMode == "logon"
+    ; In the user's own desktop session, so the network drives mapped to their login are there
+    FileWriteUTF16LE $0 '  <Triggers><LogonTrigger><Enabled>true</Enabled><UserId>$RunAsUser</UserId></LogonTrigger><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT5M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
+    FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>$RunAsUser</UserId><LogonType>InteractiveToken</LogonType><RunLevel>LeastPrivilege</RunLevel></Principal></Principals>$\r$\n'
   ${Else}
-    FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>$RunAsUser</UserId><LogonType>Password</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+    ; At boot, and then every five minutes: if Khylo ever stops (for example the disk was full), the next check starts it again
+    FileWriteUTF16LE $0 '  <Triggers><BootTrigger><Enabled>true</Enabled></BootTrigger><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT5M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
+    ${If} $RunMode == "always"
+      FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>$RunAsUser</UserId><LogonType>Password</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+    ${Else}
+      FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+    ${EndIf}
   ${EndIf}
   FileWriteUTF16LE $0 '  <Settings>$\r$\n'
   FileWriteUTF16LE $0 '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>$\r$\n'
@@ -254,18 +282,24 @@ Function CreateStartupTask
   FileWriteUTF16LE $0 '    <RestartOnFailure><Interval>PT1M</Interval><Count>999</Count></RestartOnFailure>$\r$\n'
   FileWriteUTF16LE $0 '  </Settings>$\r$\n'
   FileWriteUTF16LE $0 '  <Actions Context="Author"><Exec>$\r$\n'
-  FileWriteUTF16LE $0 '    <Command>$INSTDIR\khylo.exe</Command>$\r$\n'
-  FileWriteUTF16LE $0 '    <Arguments>--service --webdir "$INSTDIR\web" --ffmpeg "$INSTDIR\ffmpeg\ffmpeg.exe" --datadir "$APPDATA\Khylo\data" --configdir "$APPDATA\Khylo\config" --cachedir "$APPDATA\Khylo\cache" --logdir "$APPDATA\Khylo\log"</Arguments>$\r$\n'
+  ${If} $RunMode == "logon"
+    ; Khylo is a console program; in a desktop session it is started hidden so no black window sits on the screen
+    FileWriteUTF16LE $0 '    <Command>powershell.exe</Command>$\r$\n'
+    FileWriteUTF16LE $0 `    <Arguments>-NoProfile -WindowStyle Hidden -Command "&amp; '$INSTDIR\khylo.exe' --service --webdir '$INSTDIR\web' --ffmpeg '$INSTDIR\ffmpeg\ffmpeg.exe' --datadir '$APPDATA\Khylo\data' --configdir '$APPDATA\Khylo\config' --cachedir '$APPDATA\Khylo\cache' --logdir '$APPDATA\Khylo\log'"</Arguments>$\r$\n`
+  ${Else}
+    FileWriteUTF16LE $0 '    <Command>$INSTDIR\khylo.exe</Command>$\r$\n'
+    FileWriteUTF16LE $0 '    <Arguments>--service --webdir "$INSTDIR\web" --ffmpeg "$INSTDIR\ffmpeg\ffmpeg.exe" --datadir "$APPDATA\Khylo\data" --configdir "$APPDATA\Khylo\config" --cachedir "$APPDATA\Khylo\cache" --logdir "$APPDATA\Khylo\log"</Arguments>$\r$\n'
+  ${EndIf}
   FileWriteUTF16LE $0 '    <WorkingDirectory>$INSTDIR</WorkingDirectory>$\r$\n'
   FileWriteUTF16LE $0 '  </Exec></Actions>$\r$\n'
   FileWriteUTF16LE $0 '</Task>$\r$\n'
   FileClose $0
 
   DetailPrint "Setting Khylo to start with Windows..."
-  ${If} $RunAsUser == ""
-    nsExec::ExecToStack 'schtasks /Create /TN "${TASK_NAME}" /XML "$1" /F'
-  ${Else}
+  ${If} $RunMode == "always"
     nsExec::ExecToStack 'schtasks /Create /TN "${TASK_NAME}" /XML "$1" /RU "$RunAsUser" /RP "$RunAsPassword" /F'
+  ${Else}
+    nsExec::ExecToStack 'schtasks /Create /TN "${TASK_NAME}" /XML "$1" /F'
   ${EndIf}
   Pop $2
   Pop $ProblemText

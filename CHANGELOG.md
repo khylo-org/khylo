@@ -11,6 +11,7 @@
 - **Server — The address for your home network.** The remote access step in setup used to tell you to connect to an address that only works on the server itself. It now shows this computer's real address on your home network (something like http://192.168.1.20:8096), which is what your phone and TV need. The last setup step shows it too.
 - **Server — Khylo comes back by itself on Windows.** If Khylo ever stops on Windows, for example because the disk filled up, it now starts itself again within five minutes. Before, it stayed off until the PC restarted.
 **Improved**
+- **Server — Your mapped network drives, in the folder picker.** The folder picker now lists the network drives mapped on the server's PC (like X: or Y:). Click one to connect it: if Khylo can already open it, it opens, and if not, you enter your login for that share once. Before, only the disks inside the PC showed up. The Windows setup also lets you choose how Khylo runs; the recommended choice is still as the system, so it starts with the PC.
 - **Web — A calmer first-time setup.** The setup screens have a cleaner look: one simple column, clearer fields and buttons, and nothing flashy.
 - **Web — Moving your watch history, explained.** There's now a step-by-step guide with pictures for bringing everyone's history over from Plex, including exactly where to find your Plex token.
 

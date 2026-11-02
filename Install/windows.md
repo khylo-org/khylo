@@ -20,21 +20,25 @@ Not sure? Open Settings > System > About and read "System type".
    free), so Windows doesn't know it. Click **More info**, then **Run anyway**. You can check the download against
    `SHA256SUMS.txt` on the same page first if you like.
 4. Click **Yes** when Windows asks to allow changes, then follow the setup: accept the licence, choose a folder (the
-   default is fine), and choose who Khylo runs as (see below).
+   default is fine), and choose how Khylo runs (see below).
 5. When it finishes, leave **Open Khylo in my web browser** ticked and click **Finish**. Follow the
    [first-time setup](first-setup.md). From other devices use `http://<this PC's address>:8096`.
 
 The first start can take a minute or two while Khylo prepares its database.
 
-### Who Khylo runs as
+### How Khylo runs (the third step of the setup)
 
-- **The system (recommended).** Khylo starts with Windows before anyone logs in. Fine for media on this PC's drives and USB
-  drives, and for network shares that allow guests.
-- **My Windows account.** Choose this if your media is on a network share that asks for a login, such as `\\nas\Movies`.
-  Windows only passes your saved network logins to programs that run as you. You enter your Windows password once; Windows
-  keeps it, and Khylo never sees it. If you change your Windows password later, run the installer again.
+- **As the system, starting with the PC (recommended).** Khylo starts before anyone logs in and keeps running. Windows
+  keeps drive letters private to each login, so the system can't use your `X:` directly. Instead, the folder picker lists the
+  drives mapped on this PC under their letters (for example `X: \\bb02.\dfs01`). Click one: if Khylo can open it, it opens;
+  if not, it asks for your login for that share once, remembers it, and keeps it connected.
+- **As me, while I'm logged in.** Khylo runs in your own desktop session, so your mapped drive letters work directly, but it
+  only runs while you're logged in.
+- **As me, even when I'm logged out.** Starts with the PC and needs your Windows password once (Windows keeps it, Khylo never
+  sees it). Uses full addresses like `\\nas\Movies` rather than drive letters.
 
-See [network drives](network-drives.md).
+A mapped drive that shows a red X in File Explorer is disconnected. Connecting it from Khylo's folder picker reconnects it
+for Khylo. See [network drives](network-drives.md).
 
 ## Where things are
 
@@ -111,7 +115,7 @@ See [troubleshooting](troubleshooting.md). Windows-specific:
 - **Other devices can't open it:** check the firewall rules above and that the network profile is **Private**.
 - **Khylo doesn't start after a reboot:** open Task Scheduler, find **Khylo Server**, and check its last run result; read the
   newest file in `C:\ProgramData\Khylo\log`.
-- **A network share looks empty:** run the installer again and choose **My Windows account**.
+- **My network drives (like X:) aren't in Khylo's drive list:** open the folder picker and look for them under their letters (like `X:`). Click one and enter your login for the share. Only drives mapped by someone who is logged in are listed. If you want your drive letters to work directly, run the installer again and choose **As me, while I'm logged in**.
 - **The installer says Windows would not set Khylo to start with the PC:** the account name or password was rejected. Run it
   again and check them, or choose **The system**.
 - **Port 8096 is in use:** another program has it. Stop that program, or change Khylo's port in the dashboard under
