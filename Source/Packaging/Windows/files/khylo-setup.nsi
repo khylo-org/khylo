@@ -4,7 +4,7 @@
 ; Defines passed on the makensis command line: VERSION (26.11.02.01), VIVERSION (26.11.2.1), ARCH (x64 or arm64), OUTFILE.
 ;
 ; What it does: copies Khylo to Program Files, keeps the library and settings in C:\ProgramData\Khylo, starts Khylo when
-; the PC starts (a scheduled task named "Khylo Server" that restarts it if it ever stops), opens the firewall for the web
+; the PC starts (a scheduled task named "Khylo Server" that starts it again within five minutes if it ever stops), opens the firewall for the web
 ; app (8096) and for apps finding the server (7360), and adds Start Menu entries and an entry in Windows' Installed apps.
 ; Running it again updates Khylo and keeps the library and settings.
 ;
@@ -234,7 +234,7 @@ Function CreateStartupTask
   FileWriteUTF16LE /BOM $0 '<?xml version="1.0" encoding="UTF-16"?>$\r$\n'
   FileWriteUTF16LE $0 '<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">$\r$\n'
   FileWriteUTF16LE $0 '  <RegistrationInfo><Description>Khylo Server</Description></RegistrationInfo>$\r$\n'
-  FileWriteUTF16LE $0 '  <Triggers><BootTrigger><Enabled>true</Enabled></BootTrigger></Triggers>$\r$\n'
+  FileWriteUTF16LE $0 '  <Triggers><BootTrigger><Enabled>true</Enabled></BootTrigger><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT5M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
   ${If} $RunAsUser == ""
     FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
   ${Else}

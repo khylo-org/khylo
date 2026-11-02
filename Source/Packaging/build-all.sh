@@ -17,3 +17,6 @@ Source/Packaging/Docker/build.sh "$build"
 echo
 echo "Done. Packages:"
 ls -1 Source/Packaging/*/builds/* 2>/dev/null
+
+# Keep Docker's build cache from filling the disk: it grows by about 15 GB for every full build
+docker builder prune -f --keep-storage 20GB >/dev/null 2>&1 || true

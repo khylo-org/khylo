@@ -1,7 +1,7 @@
 # Khylo Server on Windows
 
 Khylo Server for Windows is a normal installer. It puts Khylo in `C:\Program Files\Khylo`, keeps your library and
-settings in `C:\ProgramData\Khylo`, starts Khylo when the PC starts, restarts it if it stops, opens the firewall for it, and
+settings in `C:\ProgramData\Khylo`, starts Khylo when the PC starts, starts it again within five minutes if it ever stops, opens the firewall for it, and
 adds Khylo to your Start menu and to Windows' **Installed apps**. Windows 10 and 11 are supported, on Intel/AMD (`x64`) and
 ARM (`arm64`) PCs.
 

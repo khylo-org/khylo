@@ -9,6 +9,7 @@
 - **Web — Staying signed in.** Refreshing the page no longer signs you out. This also fixes switching profiles, which dropped you back at the sign-in screen: choosing a home profile now switches straight to it.
 - **Web — Setup guide and help links.** The Setup Guide button in the first-time setup, and the help links in the dashboard, now open Khylo's real guides instead of a page that doesn't exist.
 - **Server — The address for your home network.** The remote access step in setup used to tell you to connect to an address that only works on the server itself. It now shows this computer's real address on your home network (something like http://192.168.1.20:8096), which is what your phone and TV need. The last setup step shows it too.
+- **Server — Khylo comes back by itself on Windows.** If Khylo ever stops on Windows, for example because the disk filled up, it now starts itself again within five minutes. Before, it stayed off until the PC restarted.
 **Improved**
 - **Web — A calmer first-time setup.** The setup screens have a cleaner look: one simple column, clearer fields and buttons, and nothing flashy.
 - **Web — Moving your watch history, explained.** There's now a step-by-step guide with pictures for bringing everyone's history over from Plex, including exactly where to find your Plex token.
