@@ -21,7 +21,7 @@ Khylo starts with the PC and is at `http://localhost:8096`. Data is in `C:\Progr
 
 ```bash
 Source/Packaging/Windows/build.sh                      # both CPU types, build number from the changelog
-Source/Packaging/Windows/build.sh DEV-V26.10.101 x64
+Source/Packaging/Windows/build.sh DEV-V26.11.02.01 x64
 ```
 
 ## Running from source (developers)

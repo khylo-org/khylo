@@ -21,7 +21,7 @@ Give `/usr/local/khylo/khylo` Full Disk Access if your media is on an external d
 
 ```bash
 Source/Packaging/Mac/build.sh                          # both CPU types, build number from the changelog
-Source/Packaging/Mac/build.sh DEV-V26.10.101 arm64
+Source/Packaging/Mac/build.sh DEV-V26.11.02.01 arm64
 ```
 
 The download is not signed or notarized (that needs an Apple developer account).

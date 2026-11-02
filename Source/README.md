@@ -28,7 +28,7 @@ git clone --recurse-submodules https://github.com/khylo-org/khylo.git
 You need Docker. From the root of this repository:
 
 ```bash
-Source/Packaging/build-all.sh DEV-V26.10.101     # every download
+Source/Packaging/build-all.sh DEV-V26.11.02.01     # every download
 Source/Packaging/Linux/build.sh                  # or just one system (Docker, Linux, Mac, Proxmox, Windows)
 ```
 

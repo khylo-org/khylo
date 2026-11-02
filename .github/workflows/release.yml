@@ -1,6 +1,6 @@
 name: Release
 
-# Builds every server download when a build tag is pushed (for example DEV-V26.10.101) and attaches them to a release.
+# Builds every server download when a build tag is pushed (for example DEV-V26.11.02.01) and attaches them to a release.
 on:
   push:
     tags: ['DEV-V*']

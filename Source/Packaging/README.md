@@ -18,12 +18,12 @@ downloads and the [install guides](../../Install/README.md).
 You need Docker. From the root of the repository:
 
 ```bash
-Source/Packaging/build-all.sh DEV-V26.10.101
+Source/Packaging/build-all.sh DEV-V26.11.02.01
 Source/Packaging/checksums.sh        # writes SHA256SUMS.txt for everything built
 ```
 
 Or build one system: `Source/Packaging/Linux/build.sh`, `Source/Packaging/Windows/build.sh` and so on. Each takes an optional
-build number and CPU type (for example `Source/Packaging/Linux/build.sh DEV-V26.10.101 amd64`).
+build number and CPU type (for example `Source/Packaging/Linux/build.sh DEV-V26.11.02.01 amd64`).
 
 The builds run inside Docker, so they work the same on Windows, Mac and Linux, and need nothing else installed. The first build
 takes a while (it compiles the web app and the server); later ones reuse what hasn't changed.

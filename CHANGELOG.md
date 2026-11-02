@@ -1,11 +1,13 @@
 # What's New in Khylo
 
-## October 2026
+## November 2026
 
-### Build DEV-V26.10.102
+### Build DEV-V26.11.02.01
 **Improved**
 - **Server — Movie and show details are gentler on the lookup service.** Khylo now looks up posters, descriptions and cast from The Movie Database at a steady, polite pace, and waits and tries again if the service asks it to slow down. Big library scans no longer risk missing details because too many requests went out at once.
 - **Server — Khylo's own lookup key.** Movie and show details now use Khylo's own key instead of another project's.
+
+## October 2026
 
 ### Build DEV-V26.10.101
 **New**

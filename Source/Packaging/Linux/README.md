@@ -22,5 +22,5 @@ Khylo starts by itself; open `http://<this machine>:8096`. Data is in `/var/lib/
 
 ```bash
 Source/Packaging/Linux/build.sh                        # both CPU types, build number from the changelog
-Source/Packaging/Linux/build.sh DEV-V26.10.101 amd64
+Source/Packaging/Linux/build.sh DEV-V26.11.02.01 amd64
 ```

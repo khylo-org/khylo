@@ -22,5 +22,5 @@ Then open `http://<this machine>:8096` and follow the [first-time setup](../../.
 
 ```bash
 Source/Packaging/Docker/build.sh                       # both CPU types, build number from the changelog
-Source/Packaging/Docker/build.sh DEV-V26.10.101 amd64
+Source/Packaging/Docker/build.sh DEV-V26.11.02.01 amd64
 ```
