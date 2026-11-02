@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.02.02
+**New**
+- **Server — A normal installer for Windows.** Khylo Server for Windows now comes as a regular setup program you double-click, instead of a script. It puts Khylo in your Start menu and in Windows' list of installed apps, starts it with your PC, and lets you uninstall it from Settings like any other app. You can choose whether Khylo runs as the system or as your own Windows account, which is what network drives need. Windows may warn that it doesn't know the publisher; choose More info, then Run anyway. A portable zip is still available if you just want to try it without installing anything.
+
 ### Build DEV-V26.11.02.01
 **Improved**
 - **Server — Movie and show details are gentler on the lookup service.** Khylo now looks up posters, descriptions and cast from The Movie Database at a steady, polite pace, and waits and tries again if the service asks it to slow down. Big library scans no longer risk missing details because too many requests went out at once.

@@ -12,3 +12,4 @@ Source/Server/fuzz
 Source/Web/node_modules
 Source/Web/dist
 Source/Web/.cache
+!LICENSE

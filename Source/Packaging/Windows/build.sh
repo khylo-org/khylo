@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Builds the Khylo Server download for Windows, for Intel/AMD (x64) and ARM (arm64):
-#   Source/Packaging/Windows/builds/khylo-server-<version>-windows-<arch>.zip
+# Builds the Khylo Server downloads for Windows, for Intel/AMD (x64) and ARM (arm64):
+#   Source/Packaging/Windows/builds/khylo-server-<version>-windows-<arch>-setup.exe     the installer
+#   Source/Packaging/Windows/builds/khylo-server-<version>-windows-<arch>-portable.zip  unzip and run, nothing installed
 #
 #   Source/Packaging/Windows/build.sh                       build number from the top of CHANGELOG.md
 #   Source/Packaging/Windows/build.sh DEV-V26.11.02.01        a specific build number

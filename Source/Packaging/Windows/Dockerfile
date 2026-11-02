@@ -1,4 +1,4 @@
-# Builds the Khylo Server download for Windows (a .zip with an installer script) for one CPU type.
+# Builds the Khylo Server downloads for Windows for one CPU type: the installer (.exe) and a portable .zip.
 # Run Source/Packaging/Windows/build.sh from the hub folder instead of calling this directly.
 
 ARG KHYLO_BUILD=DEV
@@ -28,7 +28,7 @@ FROM --platform=$BUILDPLATFORM debian:trixie-slim AS pack
 ARG RID=win-x64
 ARG KHYLO_BUILD
 ARG FFMPEG_VERSION=8.1.3-1
-RUN apt-get update && apt-get install -y --no-install-recommends zip unzip curl ca-certificates \
+RUN apt-get update && apt-get install -y --no-install-recommends zip unzip curl ca-certificates nsis \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /pkg
 RUN mkdir -p Khylo/ffmpeg
@@ -39,13 +39,19 @@ RUN case "$RID" in win-x64) f=win64 ;; win-arm64) f=winarm64 ;; esac \
     && mkdir /tmp/ff && unzip -q /tmp/ff.zip -d /tmp/ff \
     && find /tmp/ff -type f \( -iname ffmpeg.exe -o -iname ffprobe.exe \) -exec mv {} Khylo/ffmpeg/ \; \
     && test -f Khylo/ffmpeg/ffmpeg.exe && rm -rf /tmp/ff /tmp/ff.zip
-COPY Source/Packaging/Windows/files/Install-Khylo.ps1 Source/Packaging/Windows/files/Uninstall-Khylo.ps1 Source/Packaging/Windows/files/Start-Khylo.bat ./
+COPY Source/Packaging/Windows/files/khylo-setup.nsi Source/Packaging/Windows/files/khylo.ico ./
+COPY LICENSE ./LICENSE
+COPY Source/Packaging/Windows/files/Start-Khylo.bat ./
 COPY Source/Packaging/Windows/files/README.txt ./README.txt
 RUN set -e; \
     version=$(echo "${KHYLO_BUILD}" | sed -E 's/^DEV-V//; s/^DEV$/0.0.0/'); \
+    viversion=$(echo "$version" | sed -E 's/\.0+([0-9])/.\1/g'); \
+    while [ "$(echo "$viversion" | tr -cd . | wc -c)" -lt 3 ]; do viversion="$viversion.0"; done; \
     arch=$(echo "$RID" | sed 's/win-//'); \
     mkdir -p /out; \
-    zip -q -r "/out/khylo-server-${version}-windows-${arch}.zip" Khylo Install-Khylo.ps1 Uninstall-Khylo.ps1 Start-Khylo.bat README.txt
+    makensis -V2 -DVERSION="$version" -DVIVERSION="$viversion" -DARCH="$arch" \
+        -DOUTFILE="/out/khylo-server-${version}-windows-${arch}-setup.exe" khylo-setup.nsi; \
+    zip -q -r "/out/khylo-server-${version}-windows-${arch}-portable.zip" Khylo Start-Khylo.bat README.txt
 
 FROM scratch AS out
 COPY --from=pack /out/ /

@@ -61,7 +61,7 @@ Updating never touches your data folder.
 
 | Install | How |
 | --- | --- |
-| Windows | Extract the new zip and run `Install-Khylo.ps1` again. |
+| Windows | Run the new `-setup.exe` installer. |
 | Mac | Unpack the new download and run `sudo ./install.sh` again. |
 | Linux `.deb` | `sudo apt install ./khylo-server_<newversion>_amd64.deb` |
 | Linux `.tar.gz` | Unpack the new one and run `sudo ./install.sh` again. |

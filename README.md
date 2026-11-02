@@ -17,7 +17,7 @@ Ready-to-run downloads for every system are on the **[Releases page](../../relea
 
 | You have | Download | Guide |
 | --- | --- | --- |
-| Windows 10 or 11 | `khylo-server-<version>-windows-x64.zip` (ARM PCs: `-arm64.zip`) | [Install on Windows](Install/windows.md) |
+| Windows 10 or 11 | `khylo-server-<version>-windows-x64-setup.exe` (ARM PCs: `-arm64-setup.exe`) | [Install on Windows](Install/windows.md) |
 | A Mac | `khylo-server-<version>-macos-arm64.tar.gz` (Intel Macs: `-x64.tar.gz`) | [Install on Mac](Install/mac.md) |
 | Debian, Ubuntu, Raspberry Pi OS | `khylo-server_<version>_amd64.deb` (ARM: `_arm64.deb`) | [Install on Linux](Install/linux.md) |
 | Other Linux | `khylo-server-<version>-linux-amd64.tar.gz` (ARM: `-arm64.tar.gz`) | [Install on Linux](Install/linux.md) |

@@ -65,8 +65,8 @@ Each release has one download per system. `<version>` looks like `26.10.101` (th
 
 | System | File |
 | --- | --- |
-| Windows (Intel/AMD) | `khylo-server-<version>-windows-x64.zip` |
-| Windows (ARM) | `khylo-server-<version>-windows-arm64.zip` |
+| Windows (Intel/AMD) | `khylo-server-<version>-windows-x64-setup.exe` |
+| Windows (ARM) | `khylo-server-<version>-windows-arm64-setup.exe` |
 | Mac (Apple silicon) | `khylo-server-<version>-macos-arm64.tar.gz` |
 | Mac (Intel) | `khylo-server-<version>-macos-x64.tar.gz` |
 | Debian, Ubuntu, Raspberry Pi OS | `khylo-server_<version>_amd64.deb` or `_arm64.deb` |
