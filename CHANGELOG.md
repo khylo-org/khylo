@@ -2,6 +2,11 @@
 
 ## October 2026
 
+### Build DEV-V26.10.102
+**Improved**
+- **Server — Movie and show details are gentler on the lookup service.** Khylo now looks up posters, descriptions and cast from The Movie Database at a steady, polite pace, and waits and tries again if the service asks it to slow down. Big library scans no longer risk missing details because too many requests went out at once.
+- **Server — Khylo's own lookup key.** Movie and show details now use Khylo's own key instead of another project's.
+
 ### Build DEV-V26.10.101
 **New**
 - **Server — A download for every kind of computer.** Khylo Server now comes ready to install on Windows (with an installer that starts it with the PC), on Mac (Apple silicon and Intel, starting at login), on Linux (Debian, Ubuntu, Raspberry Pi and others), as a Docker image, and as a one-step Proxmox container. Each comes with the web app and video conversion built in, and each connects to network drives the way that system allows. Install steps are in each download.
