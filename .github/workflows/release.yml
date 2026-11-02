@@ -1,9 +1,16 @@
 name: Release
 
-# Builds every server download when a build tag is pushed (for example DEV-V26.11.02.01) and attaches them to a release.
+# Builds every server download and attaches them to a release.
+# It runs by itself when a build tag is pushed (for example DEV-V26.11.02.02), or by hand from the Actions tab:
+# choose "Run workflow" and type the build number.
 on:
   push:
     tags: ['DEV-V*']
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Build number to build and publish, for example DEV-V26.11.02.02 (its tag must already exist)'
+        required: true
 
 permissions:
   contents: write
@@ -11,23 +18,39 @@ permissions:
 jobs:
   servers:
     runs-on: ubuntu-latest
+    env:
+      BUILD: ${{ github.event.inputs.build || github.ref_name }}
     steps:
+      # Ten Docker images are built; the runner needs room for them
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker image prune -af
+          df -h /
+
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.inputs.build || github.ref }}
           submodules: recursive
-          # While the code repositories are private, add a token that can read them as the secret SUBMODULE_TOKEN.
-          # Once they are public, nothing is needed.
-          token: ${{ secrets.SUBMODULE_TOKEN || github.token }}
+
       - uses: docker/setup-buildx-action@v3
+
       - name: Build every server download
-        run: Source/Packaging/build-all.sh "${GITHUB_REF_NAME}"
+        run: Source/Packaging/build-all.sh "${BUILD}"
+
       - name: Checksums
         run: Source/Packaging/checksums.sh
+
+      # Creates the release, or adds to / replaces the files on one that already exists
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "Khylo ${GITHUB_REF_NAME}" \
-            --notes "Downloads for every system. Install guides: https://github.com/${GITHUB_REPOSITORY}/tree/main/Install" \
-            Source/Packaging/*/builds/* Source/Packaging/SHA256SUMS.txt
+          if gh release view "${BUILD}" >/dev/null 2>&1; then
+            gh release upload "${BUILD}" --clobber Source/Packaging/*/builds/* Source/Packaging/SHA256SUMS.txt
+          else
+            gh release create "${BUILD}" \
+              --title "Khylo Server ${BUILD}" \
+              --notes "Downloads for every system. Install guides: https://github.com/${GITHUB_REPOSITORY}/tree/main/Install" \
+              Source/Packaging/*/builds/* Source/Packaging/SHA256SUMS.txt
+          fi
