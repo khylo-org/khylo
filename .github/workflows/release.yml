@@ -1,11 +1,9 @@
 name: Release
 
-# Builds every server download and attaches them to a release.
-# It runs by itself when a build tag is pushed (for example DEV-V26.11.02.02), or by hand from the Actions tab:
-# choose "Run workflow" and type the build number.
+# Khylo's downloads are normally built on a computer with Docker and uploaded to the release by hand
+# (see Source/Packaging/README.md). This workflow is the same build on GitHub's computers, for when that is wanted:
+# it never runs by itself. From the Actions tab choose "Run workflow" and type the build number.
 on:
-  push:
-    tags: ['DEV-V*']
   workflow_dispatch:
     inputs:
       build:
