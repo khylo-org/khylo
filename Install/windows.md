@@ -5,16 +5,21 @@ settings in `C:\ProgramData\Khylo`, starts Khylo when the PC starts, starts it a
 adds Khylo to your Start menu and to Windows' **Installed apps**. Windows 10 and 11 are supported, on Intel/AMD (`x64`) and
 ARM (`arm64`) PCs.
 
-| Your PC | Download |
-| --- | --- |
-| Most PCs (Intel, AMD) | `khylo-server-<version>-windows-x64-setup.exe` |
-| ARM PCs (Surface Pro X, Snapdragon laptops) | `khylo-server-<version>-windows-arm64-setup.exe` |
+<!-- khylo-downloads:windows -->
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-windows-x64-setup.exe"><img alt="Download Windows" src="https://img.shields.io/badge/Download-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-windows-arm64-setup.exe"><img alt="Download Windows (Arm)" src="https://img.shields.io/badge/Download-Windows%20(Arm)-d97732?style=flat"></a>
+</p>
 
-Not sure? Open Settings > System > About and read "System type".
+<p align="center"><sub>Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</sub></p>
+<!-- /khylo-downloads -->
+
+Intel/AMD is most PCs. Arm is for Surface Pro X and Snapdragon laptops. Not sure? Open Settings > System > About and read "System type".
+
 
 ## Install
 
-1. Download the installer for your PC from the [Releases page](https://github.com/khylo-org/khylo/releases/latest).
+1. Click the button above for your PC.
 2. Double-click it.
 3. **Windows may say "Windows protected your PC."** Khylo's installer isn't signed yet (signing costs money, and Khylo is
    free), so Windows doesn't know it. Click **More info**, then **Run anyway**. You can check the download against

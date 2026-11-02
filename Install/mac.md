@@ -4,13 +4,16 @@ Khylo Server for Mac is a download with an installer script. It installs Khylo i
 library and settings in your own Library folder, and runs Khylo in the background from the moment the Mac starts, as you,
 so it can read your media folders.
 
-| Your Mac | Download |
-| --- | --- |
-| Apple silicon (M1, M2, M3, M4 and newer) | `khylo-server-<version>-macos-arm64.tar.gz` |
-| Intel | `khylo-server-<version>-macos-x64.tar.gz` |
+<!-- khylo-downloads:mac -->
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-macos-arm64.tar.gz"><img alt="Download Mac (Apple silicon)" src="https://img.shields.io/badge/Download-Mac%20(Apple%20silicon)-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-macos-x64.tar.gz"><img alt="Download Mac (Intel)" src="https://img.shields.io/badge/Download-Mac%20(Intel)-d97732?style=for-the-badge"></a>
+</p>
+<!-- /khylo-downloads -->
 
-Not sure? Apple menu > About This Mac shows "Chip" (Apple silicon) or "Processor" (Intel). Use a current version of
-macOS (macOS 14 or newer is the safe choice).
+Apple silicon is every Mac from late 2020 (M1, M2, M3, M4 and newer); older Macs are Intel. Not sure? Apple menu > About This Mac shows "Chip" (Apple silicon) or "Processor" (Intel).
+
+Use a current version of macOS (macOS 14 or newer is the safe choice).
 
 ## Install
 

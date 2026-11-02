@@ -4,6 +4,12 @@ One script on your Proxmox VE host creates a small Debian container, installs Kh
 address to open. The same script updates the container later. Your library stays inside the container's disk, so
 Proxmox's normal container backups cover it.
 
+<!-- khylo-downloads:proxmox -->
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-proxmox-26.11.02.02.tar.gz"><img alt="Download Proxmox" src="https://img.shields.io/badge/Download-Proxmox-d97732?style=for-the-badge"></a>
+</p>
+<!-- /khylo-downloads -->
+
 ## Before you start
 
 - A Proxmox VE host (7 or newer) with internet access, and a storage that can hold containers.

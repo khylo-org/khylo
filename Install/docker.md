@@ -4,6 +4,13 @@ One container holds everything: the Khylo server, the web app, and a video conve
 conversion on Intel, AMD and NVIDIA graphics. It runs as an ordinary user inside the container, not as root, and
 supports Intel/AMD (`amd64`) and ARM (`arm64`) hosts.
 
+<!-- khylo-downloads:docker -->
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-docker-26.11.02.02-amd64.tar"><img alt="Download Docker" src="https://img.shields.io/badge/Download-Docker-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-docker-26.11.02.02-arm64.tar"><img alt="Download Docker (Arm)" src="https://img.shields.io/badge/Download-Docker%20(Arm)-d97732?style=flat"></a>
+</p>
+<!-- /khylo-downloads -->
+
 Good for: Synology (Container Manager), Unraid, TrueNAS, QNAP, Portainer, a home server, or any Windows, Mac or Linux
 machine with Docker.
 

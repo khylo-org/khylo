@@ -3,10 +3,19 @@
 Khylo Server runs as a normal background service on Linux, starts when the machine starts, and restarts if it stops.
 It runs as its own `khylo` user, not as root. There are two downloads:
 
-| Your system | Download |
-| --- | --- |
-| Debian, Ubuntu, Linux Mint, Raspberry Pi OS (and other Debian-based) | `khylo-server_<version>_amd64.deb` or `_arm64.deb` |
-| Fedora, Arch, openSUSE and anything else with systemd | `khylo-server-<version>-linux-amd64.tar.gz` or `-linux-arm64.tar.gz` |
+<!-- khylo-downloads:linux -->
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server_26.11.02.02_amd64.deb"><img alt="Download Ubuntu, Debian (.deb)" src="https://img.shields.io/badge/Download-Ubuntu,%20Debian%20(.deb)-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server_26.11.02.02_arm64.deb"><img alt="Download Ubuntu, Debian, Arm (.deb)" src="https://img.shields.io/badge/Download-Ubuntu,%20Debian,%20Arm%20(.deb)-d97732?style=flat"></a>
+</p>
+
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-linux-amd64.tar.gz"><img alt="Download Other Linux (.tar.gz)" src="https://img.shields.io/badge/Download-Other%20Linux%20(.tar.gz)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-linux-arm64.tar.gz"><img alt="Download Other Linux, Arm (.tar.gz)" src="https://img.shields.io/badge/Download-Other%20Linux,%20Arm%20(.tar.gz)-d97732?style=flat"></a>
+</p>
+<!-- /khylo-downloads -->
+
+The `.deb` is for Debian, Ubuntu, Linux Mint and Raspberry Pi OS. The `.tar.gz` is for Fedora, Arch, openSUSE and anything else with systemd.
 
 `amd64` is Intel/AMD. `arm64` is ARM (Raspberry Pi 4/5, ARM servers). Check yours with `uname -m`: `x86_64` is amd64,
 `aarch64` is arm64.
