@@ -1,7 +1,7 @@
 # Packaging: how the source becomes the downloads
 
 This folder holds the recipes that turn the source code (`../Server` and `../Web`) into the compiled downloads you find on the
-[Releases page](../../../../releases/latest). Nothing here is something you install: if you just want to run Khylo, use the
+[Releases page](https://github.com/khylo-org/khylo/releases/latest). Nothing here is something you install: if you just want to run Khylo, use the
 downloads and the [install guides](../../Install/README.md).
 
 | Folder | Builds | Output (in that folder's `builds/`, ignored by git) |

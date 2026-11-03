@@ -27,37 +27,49 @@
 <a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-docker-26.11.02.02-arm64.tar"><img alt="Download Docker (Arm)" src="https://img.shields.io/badge/Download-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
 
+<p align="center"><sub>The Khylo app for your Android TV or Google TV:</sub></p>
+
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-tv.apk"><img alt="Download Android TV (.apk)" src="https://img.shields.io/badge/Download-Android%20TV%20(.apk)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-tv.apk"><img alt="Download Android TV" src="https://img.shields.io/badge/Download-Android%20TV-d97732?style=for-the-badge"></a>
 </p>
 
-<p align="center"><sub>Install guides: <a href="https://github.com/khylo-org/khylo/blob/main/Install/windows.md">Windows</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/mac.md">Mac</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/linux.md">Linux</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/proxmox.md">Proxmox</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/docker.md">Docker</a> · <a href="https://github.com/khylo-org/khylo/releases/latest">All files</a></sub></p>
+<p align="center"><sub>Install guides: <a href="https://github.com/khylo-org/khylo/blob/main/Install/windows.md">Windows</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/mac.md">Mac</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/linux.md">Linux</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/proxmox.md">Proxmox</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/docker.md">Docker</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/android-tv.md">Android TV</a> · <a href="https://github.com/khylo-org/khylo/releases/latest">All files</a></sub></p>
 <!-- /khylo-downloads -->
 
-## After you install
+## Get started in three steps
 
-1. Open `http://<the server's address>:8096` in a browser. On the server itself that is `http://localhost:8096`.
-2. Follow the [first-time setup](Install/first-setup.md).
-3. Moving from Plex? [Bring your watch history across](Install/import-watch-history.md).
+1. **Install the server** on a computer that stays on: use a download above and its [install guide](Install/README.md).
+2. **Open it.** Go to `http://<the server's address>:8096` in a browser (on the server itself, `http://localhost:8096`) and follow the [first-time setup](Install/first-setup.md).
+3. **Add your screens.** Use the web app in any browser, or install the [Android TV app](Install/android-tv.md). Moving from Plex? [Bring your watch history across](Install/import-watch-history.md).
 
 ## Guides
 
-[Windows](Install/windows.md) · [Mac](Install/mac.md) · [Linux](Install/linux.md) · [Proxmox](Install/proxmox.md) ·
-[Docker](Install/docker.md)
+[Windows](Install/windows.md) &middot; [Mac](Install/mac.md) &middot; [Linux](Install/linux.md) &middot; [Proxmox](Install/proxmox.md) &middot;
+[Docker](Install/docker.md) &middot; [Android TV](Install/android-tv.md)
 
-[First-time setup](Install/first-setup.md) · [Network drives](Install/network-drives.md) ·
-[Away from home](Install/remote-access.md) · [Hardware transcoding](Install/hardware-transcoding.md) ·
-[Backup, restore and update](Install/backup-restore-update.md) · [Troubleshooting](Install/troubleshooting.md)
+[First-time setup](Install/first-setup.md) &middot; [Network drives](Install/network-drives.md) &middot;
+[Away from home](Install/remote-access.md) &middot; [Hardware transcoding](Install/hardware-transcoding.md) &middot;
+[Backup, restore and update](Install/backup-restore-update.md) &middot; [Troubleshooting](Install/troubleshooting.md)
 
-## Source code
+## All the Khylo repositories
 
-Everything for people who want to read, change or build Khylo Server is in [`Source/`](Source/README.md): the
-[server](https://github.com/khylo-org/khylo-server), the [web app](https://github.com/khylo-org/khylo-web) and the recipes
-that turn them into the downloads above. With Docker installed, `Source/Packaging/build-all.sh` builds every download.
+| Repository | What it is | Who it is for |
+| --- | --- | --- |
+| [**khylo**](https://github.com/khylo-org/khylo) (you are here) | Downloads, install guides and what's new | Everyone |
+| [khylo-server](https://github.com/khylo-org/khylo-server) | The server's code (C#, .NET) | Developers |
+| [khylo-web](https://github.com/khylo-org/khylo-web) | The web app and dashboard's code (TypeScript, React) | Developers |
+| [khylo-androidtv](https://github.com/khylo-org/khylo-androidtv) | The Android TV app's code (Kotlin) | Developers |
+
+Just want to use Khylo? You only need this page. The other repositories are the source code, for people who want to read,
+change or build it. The recipes that turn the code into the downloads are in [`Source/Packaging`](Source/README.md).
+
+<!-- khylo-downloads:nav -->
+<p align="center"><sub><b>Khylo</b> &nbsp;|&nbsp; <a href="https://github.com/khylo-org/khylo">Downloads and install guides</a> · <a href="https://github.com/khylo-org/khylo-server">Server code</a> · <a href="https://github.com/khylo-org/khylo-web">Web app code</a> · <a href="https://github.com/khylo-org/khylo-androidtv">Android TV app</a> · <a href="https://github.com/khylo-org/khylo/blob/main/CHANGELOG.md">What's new</a></sub></p>
+<!-- /khylo-downloads -->
 
 ## Contributing, security and license
 
-[Contributing](.github/CONTRIBUTING.md) · [Security](.github/SECURITY.md) · [Code of conduct](.github/CODE_OF_CONDUCT.md) ·
+[Contributing](.github/CONTRIBUTING.md) &middot; [Security](.github/SECURITY.md) &middot; [Code of conduct](.github/CODE_OF_CONDUCT.md) &middot;
 [What's new](CHANGELOG.md)
 
 Khylo is free software under the [GNU General Public License v2](LICENSE). It includes and builds on open-source work,

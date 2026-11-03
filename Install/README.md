@@ -25,11 +25,13 @@ This guide covers every way to run it.
 <a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-docker-26.11.02.02-arm64.tar"><img alt="Download Docker (Arm)" src="https://img.shields.io/badge/Download-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
 
+<p align="center"><sub>The Khylo app for your Android TV or Google TV:</sub></p>
+
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-tv.apk"><img alt="Download Android TV (.apk)" src="https://img.shields.io/badge/Download-Android%20TV%20(.apk)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-tv.apk"><img alt="Download Android TV" src="https://img.shields.io/badge/Download-Android%20TV-d97732?style=for-the-badge"></a>
 </p>
 
-<p align="center"><sub>Install guides: <a href="https://github.com/khylo-org/khylo/blob/main/Install/windows.md">Windows</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/mac.md">Mac</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/linux.md">Linux</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/proxmox.md">Proxmox</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/docker.md">Docker</a> · <a href="https://github.com/khylo-org/khylo/releases/latest">All files</a></sub></p>
+<p align="center"><sub>Install guides: <a href="https://github.com/khylo-org/khylo/blob/main/Install/windows.md">Windows</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/mac.md">Mac</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/linux.md">Linux</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/proxmox.md">Proxmox</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/docker.md">Docker</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/android-tv.md">Android TV</a> · <a href="https://github.com/khylo-org/khylo/releases/latest">All files</a></sub></p>
 <!-- /khylo-downloads -->
 
 ## Pick your install
@@ -42,6 +44,7 @@ This guide covers every way to run it.
 | Fedora, Arch, openSUSE or other Linux with systemd | The `.tar.gz` package | [Linux](linux.md) |
 | A Proxmox VE host | One script that makes a container | [Proxmox](proxmox.md) |
 | A NAS (Synology, Unraid, TrueNAS, QNAP), or any machine with Docker | The Docker image | [Docker](docker.md) |
+| A TV or streaming box with Android TV or Google TV | The Khylo app (it connects to a server you installed above) | [Android TV](android-tv.md) |
 
 Not sure? On a computer that is on all the time, use the native download for its system (Windows, Mac or Linux). On a
 NAS, use Docker. On a Proxmox box, use the Proxmox script.
@@ -77,6 +80,7 @@ the web port later in the dashboard under **Networking**.
 
 ## More guides
 
+- [Android TV app](android-tv.md): install the Khylo app on your Android TV or Google TV.
 - [First-time setup](first-setup.md): the setup steps, how to organize your media, and connecting apps.
 - [Moving your watch history](import-watch-history.md): bring everyone's history across from Plex or another server.
 - [Network drives](network-drives.md): SMB and NFS shares on every system.
@@ -99,6 +103,7 @@ Each release has one download per system. `<version>` looks like `26.10.101` (th
 | Other Linux | `khylo-server-<version>-linux-amd64.tar.gz` or `-linux-arm64.tar.gz` |
 | Proxmox | `khylo-proxmox-<version>.tar.gz` |
 | Docker | `khylo-server-docker-<version>-amd64.tar` or `-arm64.tar`, or the image `khylo/server` |
+| Android TV and Google TV app | `khylo-tv.apk` |
 
 `amd64`/`x64` means Intel and AMD processors. `arm64` means ARM processors (Apple silicon Macs, Raspberry Pi 4 and 5,
 ARM servers). Each file contains the server, the web app, and the video converter (ffmpeg); there is nothing else to
