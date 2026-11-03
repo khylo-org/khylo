@@ -27,6 +27,10 @@
 <a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-docker-26.11.02.02-arm64.tar"><img alt="Download Docker (Arm)" src="https://img.shields.io/badge/Download-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
 
+<p align="center">
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-tv.apk"><img alt="Download Android TV (.apk)" src="https://img.shields.io/badge/Download-Android%20TV%20(.apk)-d97732?style=flat"></a>
+</p>
+
 <p align="center"><sub>Install guides: <a href="https://github.com/khylo-org/khylo/blob/main/Install/windows.md">Windows</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/mac.md">Mac</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/linux.md">Linux</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/proxmox.md">Proxmox</a> · <a href="https://github.com/khylo-org/khylo/blob/main/Install/docker.md">Docker</a> · <a href="https://github.com/khylo-org/khylo/releases/latest">All files</a></sub></p>
 <!-- /khylo-downloads -->
 
