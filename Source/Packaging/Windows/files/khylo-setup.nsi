@@ -378,6 +378,14 @@ Section "Uninstall"
 
   ${IfNot} ${Silent}
     MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 "Also delete your Khylo library, users and settings in $APPDATA\Khylo?$\r$\n$\r$\nThis cannot be undone. Choose No to keep them (for example if you plan to install Khylo again)." IDNO keepData
+    ; A library holds tens of thousands of small files (artwork, metadata); NSIS deletes them one by one and shows nothing,
+    ; which looks frozen. Windows' robocopy empties a folder in parallel, many times faster.
+    DetailPrint "Deleting your library, users and settings (this can take a few minutes)..."
+    CreateDirectory "$TEMP\khylo-empty"
+    nsExec::ExecToLog 'robocopy "$TEMP\khylo-empty" "$APPDATA\Khylo" /MIR /MT:64 /R:0 /W:0 /NFL /NDL /NJH /NJS /NP'
+    Pop $0
+    RMDir "$TEMP\khylo-empty"
+    ; whatever robocopy could not remove (a locked file): the plain way
     RMDir /r "$APPDATA\Khylo"
     keepData:
   ${EndIf}
