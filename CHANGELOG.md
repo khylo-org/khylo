@@ -2,6 +2,13 @@
 
 ## November 2026
 
+### Build DEV-V26.11.04.04
+**Fixed**
+- **Web — Backups no longer look broken.** A big backup (artwork and other media details can be many gigabytes) takes several minutes, and the page used to give up waiting and show an error while the backup kept going. Backups now run in the background: the page shows how big it is so far, you can leave and come back, and the finished backup appears in the list. The artwork option also says plainly that it makes the backup much bigger.
+- **Web — What's new is readable.** The update box showed a long block of garbled text. It now shows a short, tidy list of what changed in the new version.
+**Improved**
+- **Web — Updates has its own page.** There is now an **Updates** entry in the left menu under Logs. Installing an update shows what it is doing (downloading with a percentage, installing, restarting), how long it usually takes (2 to 3 minutes), and reports when the new version is running.
+
 ### Build DEV-V26.11.04.03
 **Improved**
 - **Web — The updates box has a better home.** The Khylo updates box moved to Settings, General, next to the other server settings. The Operations page now shows a slim notice only when an update is waiting. The channel you pick (Stable or Dev) lights up orange, and so does the automatic updates switch, so it's clear what's on.

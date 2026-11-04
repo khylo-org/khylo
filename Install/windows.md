@@ -7,8 +7,8 @@ ARM (`arm64`) PCs.
 
 <!-- khylo-downloads:windows -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.03/khylo-server-26.11.04.03-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.03/khylo-server-26.11.04.03-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.04/khylo-server-26.11.04.04-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.04/khylo-server-26.11.04.04-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center">Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</p>
@@ -87,8 +87,8 @@ sleep while plugged in.
 
 ## Updating
 
-Khylo checks the release page by itself and tells you in the dashboard (the **Khylo updates** panel at the top) when there's a
-newer build. Press **Update now** and it downloads the new installer, checks it against the published checksum, and installs it.
+Khylo checks the release page by itself and tells you in the dashboard (**Updates**, in the left menu under Logs) when there's a
+newer build. Press **Update now**: it shows its progress and takes about 2 to 3 minutes. It downloads the new installer, checks it against the published checksum, and installs it.
 Your library and settings are kept, and Khylo is back within a minute or two.
 
 - **Channel:** choose **Stable releases** (finished versions only) or **Every build (dev)**.
