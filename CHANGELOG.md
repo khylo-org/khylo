@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.04.02
+**New**
+- **Server — Khylo updates itself on Windows.** The dashboard now has a **Khylo updates** panel. It tells you when a newer version is out and you can press **Update now**: Khylo downloads the new installer, checks it, installs it and restarts, keeping your library and settings. Pick **Stable releases** or **Every build (dev)**, and turn on automatic updates if you like: they install at 3 am, only when nobody is watching. If a new version doesn't start, Khylo puts the old one back by itself.
+
 ### Build DEV-V26.11.04.01
 **New**
 - **Server — Manage your server from your phone.** Khylo Manager, a new app for administrators, can now work with your server: see how the computer and Khylo are doing, see and stop the transcodes Khylo started, follow the log live, restart Khylo, and reboot the computer with a two-step confirmation. Only administrators can use it, every action is recorded in the activity log, and the Reboot button only appears when Khylo really can reboot the computer.

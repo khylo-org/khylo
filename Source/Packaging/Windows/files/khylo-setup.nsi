@@ -8,7 +8,7 @@
 ; app (8096) and for apps finding the server (7360), and adds Start Menu entries and an entry in Windows' Installed apps.
 ; Running it again updates Khylo and keeps the library and settings.
 ;
-; Silent install: khylo-server-...-setup.exe /S   (runs as the system account; add /D=C:\somewhere\Khylo to choose the folder)
+; Silent install: khylo-server-...-setup.exe /S   (a first install runs as the system account; an update keeps the startup task as it is; add /D=C:\somewhere\Khylo to choose the folder)
 ; Silent uninstall: "C:\Program Files\Khylo\Uninstall.exe" /S   (keeps the library and settings)
 
 Unicode true
@@ -217,7 +217,18 @@ Section "Khylo Server" SecMain
     Pop $0
   ${EndIf}
 
-  Call CreateStartupTask
+  ; A silent update (Khylo updating itself) keeps the startup task as it is, so the account it runs as is not changed
+  ${If} ${Silent}
+    nsExec::ExecToStack 'schtasks /Query /TN "${TASK_NAME}"'
+    Pop $0
+    ${If} $0 == 0
+      DetailPrint "Keeping the existing startup task"
+    ${Else}
+      Call CreateStartupTask
+    ${EndIf}
+  ${Else}
+    Call CreateStartupTask
+  ${EndIf}
   Call OpenFirewall
 
   ; Start Menu, and the entry in Windows' Installed apps

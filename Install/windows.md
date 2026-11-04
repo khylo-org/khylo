@@ -7,8 +7,8 @@ ARM (`arm64`) PCs.
 
 <!-- khylo-downloads:windows -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-windows-x64-setup.exe"><img alt="Download Windows" src="https://img.shields.io/badge/Download-Windows-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-windows-arm64-setup.exe"><img alt="Download Windows (Arm)" src="https://img.shields.io/badge/Download-Windows%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.02/khylo-server-26.11.04.02-windows-x64-setup.exe"><img alt="Download Windows" src="https://img.shields.io/badge/Download-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.02/khylo-server-26.11.04.02-windows-arm64-setup.exe"><img alt="Download Windows (Arm)" src="https://img.shields.io/badge/Download-Windows%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center"><sub>Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</sub></p>
@@ -87,8 +87,20 @@ sleep while plugged in.
 
 ## Updating
 
-Download the new installer and run it. It stops Khylo, replaces the program, and starts it again. Your library and
-settings are kept. (Run it again as the same account choice you used before.)
+Khylo checks the release page by itself and tells you in the dashboard (the **Khylo updates** panel at the top) when there's a
+newer build. Press **Update now** and it downloads the new installer, checks it against the published checksum, and installs it.
+Your library and settings are kept, and Khylo is back within a minute or two.
+
+- **Channel:** choose **Stable releases** (finished versions only) or **Every build (dev)**.
+- **Install by themselves:** off by default. Turn it on and Khylo installs a new version at 3 am, and only when nobody is
+  watching. Otherwise it waits for the next night.
+- **If something goes wrong:** before installing, Khylo keeps a copy of the working version. If the new one doesn't start and
+  answer within about three minutes, the old one is put back and the dashboard says so.
+- **Skip this one** ignores a build; the next newer one is offered again.
+
+Updating itself needs Khylo to run as the system account (the installer's default) or as an administrator. If Khylo runs as a
+regular Windows user, the panel says so and you update the old way: download the new installer and run it. Either way, running
+the installer yourself still works, and it keeps the account Khylo runs as.
 
 ## Removing it
 
