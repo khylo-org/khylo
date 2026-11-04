@@ -42,10 +42,16 @@ You can disconnect a share from the same place; nothing on the share is changed.
 
 ## Windows
 
-Windows reads network shares natively. In the folder picker, type the address (`\\nas\Movies`). One catch: Windows only passes
-your saved logins to programs that run **as you**. If Khylo was installed with the default (system account), it can read shares
-that allow guest access but not ones that need your password. Reinstall with `-RunAsUser` (see the
-[Windows guide](windows.md)), or map the share as a drive letter for the account Khylo runs as.
+Windows reads network shares natively, but there is one catch: Windows only passes your saved logins and mapped drive letters to
+programs that run **as you**. Khylo's default install runs as the system account, so it can't use them.
+
+Khylo handles this for you. When a library's network folder can't be reached, the dashboard says so and offers
+**Connect with a login**. Enter the user name and password that can read the share (for example `\\nas\Media`), and Khylo
+connects it itself, remembers the login (stored encrypted), and reconnects after every restart or reboot, with nobody signed in.
+One login covers every library on that share. You can also do it before adding libraries: in the folder picker, choose
+**Network share**.
+
+You do not need to reinstall Khylo as your own account, and you do not need a mapped drive letter.
 
 ## Mac
 

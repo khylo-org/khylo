@@ -2,6 +2,12 @@
 
 ## November 2026
 
+### Build DEV-V26.11.04.01
+**New**
+- **Server — Manage your server from your phone.** Khylo Manager, a new app for administrators, can now work with your server: see how the computer and Khylo are doing, see and stop the transcodes Khylo started, follow the log live, restart Khylo, and reboot the computer with a two-step confirmation. Only administrators can use it, every action is recorded in the activity log, and the Reboot button only appears when Khylo really can reboot the computer.
+**Fixed**
+- **Server — Network folders work when Khylo runs as the system account.** If a library's folder on a NAS or another PC couldn't be reached, Khylo just kept saying so. The dashboard now offers **Connect with a login** right in that message: enter the share's login once, and Khylo connects it, remembers it, and reconnects it after every restart, without anyone signed in to Windows.
+
 ### Build DEV-V26.11.02.02
 **New**
 - **Server — A normal installer for Windows.** Khylo Server for Windows now comes as a regular setup program you double-click, instead of a script. It puts Khylo in your Start menu and in Windows' list of installed apps, starts it with your PC, and lets you uninstall it from Settings like any other app. You can choose whether Khylo runs as the system or as your own Windows account, which is what network drives need. Windows may warn that it doesn't know the publisher; choose More info, then Run anyway. A portable zip is still available if you just want to try it without installing anything.

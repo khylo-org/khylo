@@ -6,8 +6,8 @@ so it can read your media folders.
 
 <!-- khylo-downloads:mac -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-macos-arm64.tar.gz"><img alt="Download Mac (Apple silicon)" src="https://img.shields.io/badge/Download-Mac%20(Apple%20silicon)-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.02.02/khylo-server-26.11.02.02-macos-x64.tar.gz"><img alt="Download Mac (Intel)" src="https://img.shields.io/badge/Download-Mac%20(Intel)-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-macos-arm64.tar.gz"><img alt="Download Mac (Apple silicon)" src="https://img.shields.io/badge/Download-Mac%20(Apple%20silicon)-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-macos-x64.tar.gz"><img alt="Download Mac (Intel)" src="https://img.shields.io/badge/Download-Mac%20(Intel)-d97732?style=for-the-badge"></a>
 </p>
 <!-- /khylo-downloads -->
 
