@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.04.03
+**Improved**
+- **Web — The updates box has a better home.** The Khylo updates box moved to Settings, General, next to the other server settings. The Operations page now shows a slim notice only when an update is waiting. The channel you pick (Stable or Dev) lights up orange, and so does the automatic updates switch, so it's clear what's on.
+
 ### Build DEV-V26.11.04.02
 **New**
 - **Server — Khylo updates itself on Windows.** The dashboard now has a **Khylo updates** panel. It tells you when a newer version is out and you can press **Update now**: Khylo downloads the new installer, checks it, installs it and restarts, keeping your library and settings. Pick **Stable releases** or **Every build (dev)**, and turn on automatic updates if you like: they install at 3 am, only when nobody is watching. If a new version doesn't start, Khylo puts the old one back by itself.
