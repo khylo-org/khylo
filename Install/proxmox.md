@@ -6,7 +6,7 @@ Proxmox's normal container backups cover it.
 
 <!-- khylo-downloads:proxmox -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-proxmox-26.11.04.01.tar.gz"><img alt="Download Proxmox" src="https://img.shields.io/badge/Download-Proxmox-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-proxmox-26.11.04.01.tar.gz"><img alt="Download DEV Proxmox" src="https://img.shields.io/badge/Download%20DEV-Proxmox-d97732?style=for-the-badge"></a>
 </p>
 <!-- /khylo-downloads -->
 

@@ -5,13 +5,13 @@ It runs as its own `khylo` user, not as root. There are two downloads:
 
 <!-- khylo-downloads:linux -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server_26.11.04.01_amd64.deb"><img alt="Download Ubuntu, Debian (.deb)" src="https://img.shields.io/badge/Download-Ubuntu,%20Debian%20(.deb)-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server_26.11.04.01_arm64.deb"><img alt="Download Ubuntu, Debian, Arm (.deb)" src="https://img.shields.io/badge/Download-Ubuntu,%20Debian,%20Arm%20(.deb)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server_26.11.04.01_amd64.deb"><img alt="Download DEV Ubuntu, Debian (.deb)" src="https://img.shields.io/badge/Download%20DEV-Ubuntu,%20Debian%20(.deb)-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server_26.11.04.01_arm64.deb"><img alt="Download DEV Ubuntu, Debian, Arm (.deb)" src="https://img.shields.io/badge/Download%20DEV-Ubuntu,%20Debian,%20Arm%20(.deb)-d97732?style=flat"></a>
 </p>
 
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-linux-amd64.tar.gz"><img alt="Download Other Linux (.tar.gz)" src="https://img.shields.io/badge/Download-Other%20Linux%20(.tar.gz)-d97732?style=flat"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-linux-arm64.tar.gz"><img alt="Download Other Linux, Arm (.tar.gz)" src="https://img.shields.io/badge/Download-Other%20Linux,%20Arm%20(.tar.gz)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-linux-amd64.tar.gz"><img alt="Download DEV Other Linux (.tar.gz)" src="https://img.shields.io/badge/Download%20DEV-Other%20Linux%20(.tar.gz)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-26.11.04.01-linux-arm64.tar.gz"><img alt="Download DEV Other Linux, Arm (.tar.gz)" src="https://img.shields.io/badge/Download%20DEV-Other%20Linux,%20Arm%20(.tar.gz)-d97732?style=flat"></a>
 </p>
 <!-- /khylo-downloads -->
 
