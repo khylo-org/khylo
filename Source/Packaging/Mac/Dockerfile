@@ -19,6 +19,8 @@ WORKDIR /src
 COPY Source/Server/ ./
 RUN if [ "$KHYLO_BUILD" != "DEV" ]; then \
         sed -i -E "s/AssemblyMetadata\(\"KhyloBuild\", \"[^\"]*\"\)/AssemblyMetadata(\"KhyloBuild\", \"$KHYLO_BUILD\")/" SharedVersion.cs; \
+        asm=$(echo "$KHYLO_BUILD" | sed -E 's/^DEV-V0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)\.0*([0-9]+)$/\1.\2.\3.\4/'); \
+        sed -i -E "s/AssemblyVersion\(\"[^\"]*\"\)/AssemblyVersion(\"$asm\")/; s/AssemblyFileVersion\(\"[^\"]*\"\)/AssemblyFileVersion(\"$asm\")/" SharedVersion.cs; \
     fi
 RUN dotnet publish Khylo.Server/Khylo.Server.csproj -c Release -r "$RID" --self-contained \
         -p:DebugType=none -p:DebugSymbols=false -o /out

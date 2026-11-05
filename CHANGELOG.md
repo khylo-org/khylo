@@ -2,6 +2,13 @@
 
 ## November 2026
 
+### Build DEV-V26.11.05.08
+**New**
+- **Server — Listening history.** Khylo can now remember what you listen to, privately. It builds your weekly stats, a history list, a review every quarter and a year-end Wrapped, and only you can see them: not even the person who runs the server. You can turn it off or delete all of your history at any time, and it is included in Khylo's backups. It starts recording today, and a play that isn't recorded can't be recovered later.
+- **Server — Watching history and server Insights.** Khylo also remembers the movies and shows you watch, for your own weekly stats and a year-end Rewind. The person who runs the server gets an Insights view of what is played and watched across the household: popular items, time per person, which apps and play methods are used, how busy the server has been, and what was added to each library. It never includes anyone's own reviews, and people who turn recording off are left out.
+**Fixed**
+- **Server — The right version number.** The internal version number is now the real build number too, so the old "13" no longer shows anywhere, including in a backup's details.
+
 ### Build DEV-V26.11.05.05
 **Fixed**
 - **Web — Khylo loads again after updating.** After the version number change, the web page could sit on the loading spinner and never open. It now opens normally and shows the new build number.
