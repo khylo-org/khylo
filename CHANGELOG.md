@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.05.05
+**Fixed**
+- **Web — Khylo loads again after updating.** After the version number change, the web page could sit on the loading spinner and never open. It now opens normally and shows the new build number.
+
 ### Build DEV-V26.11.05.02
 **Fixed**
 - **Server — The right version number.** Khylo now shows its real build number everywhere instead of an old "13". You'll see it in the dashboard, the installers, the server log and in the Khylo apps and Manager.
