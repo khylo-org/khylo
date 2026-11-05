@@ -79,7 +79,7 @@ RUN set -e; \
       "Section: video" \
       "Priority: optional" \
       "Homepage: https://github.com/khylo-org/khylo" \
-      "Description: Khylo Server, your own media server" \
+      "Description: Khylo Server ${KHYLO_BUILD}, your own media server" \
       " Movies, shows, music, books, Khylo TV and Live TV from your own library," \
       " with the web app and hardware transcoding built in." \
       > deb/DEBIAN/control; \

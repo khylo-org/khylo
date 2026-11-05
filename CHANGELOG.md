@@ -2,6 +2,12 @@
 
 ## November 2026
 
+### Build DEV-V26.11.05.02
+**Fixed**
+- **Server — The right version number.** Khylo now shows its real build number everywhere instead of an old "13". You'll see it in the dashboard, the installers, the server log and in the Khylo apps and Manager.
+**Improved**
+- **Web — Update has its own page.** "Update" now sits in the left menu right under Activity & Logs, so you can check for a new version and install it without hunting for it.
+
 ### Build DEV-V26.11.04.04
 **Fixed**
 - **Web — Backups no longer look broken.** A big backup (artwork and other media details can be many gigabytes) takes several minutes, and the page used to give up waiting and show an error while the backup kept going. Backups now run in the background: the page shows how big it is so far, you can leave and come back, and the finished backup appears in the list. The artwork option also says plainly that it makes the backup much bigger.

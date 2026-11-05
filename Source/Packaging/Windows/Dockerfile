@@ -49,7 +49,7 @@ RUN set -e; \
     while [ "$(echo "$viversion" | tr -cd . | wc -c)" -lt 3 ]; do viversion="$viversion.0"; done; \
     arch=$(echo "$RID" | sed 's/win-//'); \
     mkdir -p /out; \
-    makensis -V2 -DVERSION="$version" -DVIVERSION="$viversion" -DARCH="$arch" \
+    makensis -V2 -DBUILD="${KHYLO_BUILD}" -DVERSION="$version" -DVIVERSION="$viversion" -DARCH="$arch" \
         -DOUTFILE="/out/khylo-server-${version}-windows-${arch}-setup.exe" khylo-setup.nsi; \
     zip -q -r "/out/khylo-server-${version}-windows-${arch}-portable.zip" Khylo Start-Khylo.bat README.txt
 

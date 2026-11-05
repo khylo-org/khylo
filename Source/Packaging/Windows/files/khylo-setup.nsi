@@ -20,6 +20,9 @@ RequestExecutionLevel admin
 !include "LogicLib.nsh"
 !include "x64.nsh"
 
+!ifndef BUILD
+  !define BUILD "DEV"
+!endif
 !ifndef VERSION
   !define VERSION "0.0.0"
 !endif
@@ -39,15 +42,15 @@ RequestExecutionLevel admin
 
 Name "Khylo Server"
 OutFile "${OUTFILE}"
-BrandingText "Khylo Server ${VERSION}"
+BrandingText "Khylo Server ${BUILD}"
 InstallDir "$PROGRAMFILES64\Khylo"
 
 VIProductVersion "${VIVERSION}"
 VIAddVersionKey "ProductName" "Khylo Server"
 VIAddVersionKey "CompanyName" "Khylo"
 VIAddVersionKey "FileDescription" "Khylo Server setup"
-VIAddVersionKey "FileVersion" "${VERSION}"
-VIAddVersionKey "ProductVersion" "${VERSION}"
+VIAddVersionKey "FileVersion" "${BUILD}"
+VIAddVersionKey "ProductVersion" "${BUILD}"
 VIAddVersionKey "LegalCopyright" "Khylo is free software, released under the GNU General Public License"
 
 !define MUI_ICON "khylo.ico"
@@ -241,7 +244,7 @@ Section "Khylo Server" SecMain
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   WriteRegStr HKLM "Software\Khylo" "InstallDir" "$INSTDIR"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayName" "Khylo Server"
-  WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayVersion" "${VERSION}"
+  WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayVersion" "${BUILD}"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "Publisher" "Khylo"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\khylo.ico"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "InstallLocation" "$INSTDIR"

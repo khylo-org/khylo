@@ -6,8 +6,8 @@ supports Intel/AMD (`amd64`) and ARM (`arm64`) hosts.
 
 <!-- khylo-downloads:docker -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-docker-26.11.04.01-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.04.01/khylo-server-docker-26.11.04.01-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.05.02/khylo-server-docker-26.11.05.02-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.05.02/khylo-server-docker-26.11.05.02-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
 <!-- /khylo-downloads -->
 
