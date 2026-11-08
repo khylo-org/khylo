@@ -2,6 +2,28 @@
 
 ## November 2026
 
+### Build DEV-V26.11.08.04
+**Fixed**
+- **Server — Handoff and Mirror after an update.** Your devices can be sent to again as soon as the server restarts. Before, each app had to be closed and reopened first, so Mirror and Handoff found nobody after every server update.
+
+### Build DEV-V26.11.08.03
+**New**
+- **Server — Mirror Live TV and Khylo TV.** Mirror now works while you watch Live TV or a Khylo TV channel. Your other TVs tune to the same channel and follow when you change it.
+**Fixed**
+- **Web — Mirror errors.** The same plain message appears on the web.
+
+### Build DEV-V26.11.08.02
+**New**
+- **Web — Record from the player.** When you watch a live channel, the Record button now appears in the player controls and records what is on right now.
+**Fixed**
+- **Web — Matching channels to the guide.** The guide channel you pick now stays picked straight away instead of looking like it was not saved.
+- **Server — Matching channels to the guide.** Picking the same guide channel twice no longer undoes the match.
+
+### Build DEV-V26.11.08.01
+**New**
+- **Server — Mirror your TVs.** Play something on one of your devices and have your other devices follow it. They start the same movie or episode from the same moment and pause and resume with it. They stay within a fraction of a second of each other and always inside one second. It only ever links your own devices.
+- **Web — Mirror from the top bar.** The handoff icon now also lets you mirror what you are watching onto your other screens, and a web screen can follow another device.
+
 ### Build DEV-V26.11.05.08
 **New**
 - **Server — Listening history.** Khylo can now remember what you listen to, privately. It builds your weekly stats, a history list, a review every quarter and a year-end Wrapped, and only you can see them: not even the person who runs the server. You can turn it off or delete all of your history at any time, and it is included in Khylo's backups. It starts recording today, and a play that isn't recorded can't be recovered later.

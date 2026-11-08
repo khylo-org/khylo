@@ -80,6 +80,7 @@ the web port later in the dashboard under **Networking**.
 - [Moving your watch history](import-watch-history.md): bring everyone's history across from Plex or another server.
 - [Network drives](network-drives.md): SMB and NFS shares on every system.
 - [Listening and watching history](listening-history.md): what Khylo remembers, who can see it, and how to turn it off.
+- [Mirroring](mirroring.md): play the same thing on several of your TVs at once.
 - [Manage your server from your phone](manage-from-phone.md): the admin-only Khylo Manager app.
 - [Away from home](remote-access.md): HTTPS, reverse proxies, and watching outside your network.
 - [Hardware transcoding](hardware-transcoding.md): Intel, AMD, NVIDIA and Apple graphics.
