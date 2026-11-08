@@ -7,7 +7,7 @@ It needs a **Khylo Server** to connect to. If you haven't set one up yet, start 
 
 <!-- khylo-downloads:tv -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.04/khylo-tv.apk"><img alt="Download DEV Android TV" src="https://img.shields.io/badge/Download%20DEV-Android%20TV-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.07/khylo-tv.apk"><img alt="Download DEV Android TV" src="https://img.shields.io/badge/Download%20DEV-Android%20TV-d97732?style=for-the-badge"></a>
 </p>
 
 <p align="center">Needs a Khylo Server to connect to. <a href="https://github.com/khylo-org/khylo/blob/main/Install/android-tv.md">How to install it on your TV</a></p>

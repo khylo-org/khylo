@@ -2,6 +2,11 @@
 
 ## November 2026
 
+### Build DEV-V26.11.08.07
+**Fixed**
+- **Server — Recordings now show up.** Recordings saved to your recordings folder were missing from the Recordings list in the apps. The server now finds the folder reliably and adds new recordings as soon as they finish.
+- **Server — Mirror to a phone on the same network.** Mirror no longer fails with "that device isn't online" when a phone's connection blips. The server keeps the device for a short while and the mirror starts as soon as it is back, and the messages now say which device and what to do.
+
 ### Build DEV-V26.11.08.04
 **Fixed**
 - **Server — Handoff and Mirror after an update.** Your devices can be sent to again as soon as the server restarts. Before, each app had to be closed and reopened first, so Mirror and Handoff found nobody after every server update.
