@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.08.11
+**Fixed**
+- **Server — The update note matches the version you're running.** On the Updates page, the green note ("Khylo updated to…") now shows only while that version is the one running. Before, it could keep naming an older version for up to a day after you had updated again.
+
 ### Build DEV-V26.11.08.09
 **Fixed**
 - **Server — Mirror finds the TV that's asking.** Starting Mirror no longer fails with "isn't connected to your Khylo Server". The server now recognises the device in more ways, and records in its log exactly what it saw if something still goes wrong.
