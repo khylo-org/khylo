@@ -8,6 +8,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 build=${1:-$(grep -m1 -oE 'DEV-V[0-9]{2}\.[0-9]{2}\.[0-9]{2}\.[0-9]{2}' CHANGELOG.md)}
+scripts/disk-guard.sh 50 || exit 1
+source scripts/cpu-cap.sh
 echo "Building every server for $build"
 Source/Packaging/Linux/build.sh "$build"
 Source/Packaging/Proxmox/build.sh "$build"

@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.08.09
+**Fixed**
+- **Server — Mirror finds the TV that's asking.** Starting Mirror no longer fails with "isn't connected to your Khylo Server". The server now recognises the device in more ways, and records in its log exactly what it saw if something still goes wrong.
+
 ### Build DEV-V26.11.08.07
 **Fixed**
 - **Server — Recordings now show up.** Recordings saved to your recordings folder were missing from the Recordings list in the apps. The server now finds the folder reliably and adds new recordings as soon as they finish.
