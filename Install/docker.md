@@ -23,13 +23,30 @@ machine with Docker.
 
 ## Get the image
 
-**From a file** (a release download):
+**From GitHub** (recommended): Khylo's image is hosted on GitHub, so Docker can download it and later update it itself.
+
+```bash
+docker pull ghcr.io/khylo-org/khylo-server:latest
+```
+
+One name works on Intel/AMD (`amd64`) and ARM (`arm64`) machines; Docker picks the right one. The tags:
+
+| Tag | What you get |
+| --- | --- |
+| `latest` | The newest build. This is what the compose file below uses. |
+| `dev` | The newest development build. |
+| `26.11.10.01` (a build number) | That exact build, for when you want to stay on one. |
+
+Every release also lists its image on the [release page](https://github.com/khylo-org/khylo/releases).
+
+**From a file** (a release download, for a machine that can't reach GitHub):
 
 ```bash
 docker load -i khylo-server-docker-<version>-amd64.tar    # or -arm64.tar for ARM
 ```
 
-This adds the image `khylo/server:<version>` (and `khylo/server:latest`). Use the file that matches your processor.
+This adds the image `khylo/server:<version>` (and `khylo/server:latest`). Use the file that matches your processor, and
+put `khylo/server:latest` instead of `ghcr.io/khylo-org/khylo-server:latest` on the `image:` line below.
 Not sure? On Linux run `uname -m`: `x86_64` is amd64, `aarch64` is arm64.
 
 **Or build it yourself**, from the Khylo project folder:
@@ -45,7 +62,7 @@ Save this as `docker-compose.yml` in your Khylo folder and edit the media line:
 ```yaml
 services:
   khylo:
-    image: khylo/server:latest
+    image: ghcr.io/khylo-org/khylo-server:latest
     container_name: khylo
     restart: unless-stopped
     ports:
@@ -53,12 +70,6 @@ services:
       - "7360:7360/udp"    # apps finding the server (see "Finding the server" below)
     environment:
       - TZ=America/Chicago        # your time zone, for example Europe/London
-    # Needed only to add SMB/NFS network shares from inside Khylo. See "Network drives".
-    cap_add:
-      - SYS_ADMIN
-      - DAC_READ_SEARCH
-    security_opt:
-      - apparmor:unconfined
     volumes:
       - ./khylo-config:/config       # your library, users and settings (back this up)
       - ./khylo-cache:/cache         # artwork and temporary files (safe to delete)
@@ -81,14 +92,16 @@ folders, choose the paths *inside* the container (for example `/media/movies`).
 docker run -d --name khylo --restart unless-stopped \
   -p 8096:8096 -p 7360:7360/udp \
   -e TZ=America/Chicago \
-  --cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH --security-opt apparmor:unconfined \
+\
   -v /path/to/khylo-config:/config \
   -v /path/to/khylo-cache:/cache \
   -v /path/to/movies:/media/movies:ro \
-  khylo/server:latest
+  ghcr.io/khylo-org/khylo-server:latest
 ```
 
 (In PowerShell, put each option on one line or end lines with a backtick instead of a backslash.)
+
+This runs Khylo with no extra privileges. To connect network shares from inside Khylo, see [Network drives](#network-drives).
 
 ## What lives where
 
@@ -104,10 +117,29 @@ To run as a different user, add `user: "UID:GID"` to the compose file and make s
 
 ## Network drives
 
-Khylo connects SMB (Windows) and NFS shares itself: when you add a library, choose **Network share**. This needs the
-three settings shown above (`SYS_ADMIN`, `DAC_READ_SEARCH`, `apparmor:unconfined`). They only allow Khylo's small mount
-helper to connect shares; Khylo itself runs without extra power. If you never use network shares, delete those lines
-and the container runs with no extra privileges. See [network drives](network-drives.md).
+Khylo connects SMB (Windows) and NFS shares itself: when you add a library, choose **Network share**. Linux only allows
+that when the container has three extra settings (`SYS_ADMIN`, `DAC_READ_SEARCH`, `apparmor:unconfined`), so they are not
+in the normal compose file. They only allow Khylo's small mount helper to connect shares; Khylo itself runs without extra
+power. To turn network shares on, save this as `docker-compose.shares.yml` next to your `docker-compose.yml`:
+
+```yaml
+services:
+  khylo:
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+```
+
+and start Khylo with both files:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.shares.yml up -d
+```
+
+With plain `docker run`, add `--cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH --security-opt apparmor:unconfined`.
+If you never use network shares, leave it out and the container runs with no extra privileges. See [network drives](network-drives.md).
 
 ## Hardware transcoding
 
@@ -146,13 +178,21 @@ broadcasts, so either:
 
 ## Updating
 
+Khylo's **Update** page tells you when a new version is out. A Docker container can't replace its own image from the
+inside, so the update itself is done where Docker runs:
+
 ```bash
-docker load -i khylo-server-docker-<newversion>-amd64.tar
+docker compose pull
 docker compose up -d
 ```
 
-(`up -d` recreates the container on the new image.) Your library and settings in `./khylo-config` are untouched. If you
-use the same image name each time (`khylo/server:latest`), nothing in the compose file changes.
+`pull` downloads the new image and `up -d` recreates the container on it. Your library and settings in `./khylo-config` are
+untouched. On a NAS app (Synology Container Manager, Unraid, Portainer, QNAP) use its "pull the latest image" and "recreate
+the container" buttons instead. To have Docker do it for you on a schedule, a tool such as Watchtower can watch
+`ghcr.io/khylo-org/khylo-server` and update the container.
+
+Updating from a downloaded file instead: `docker load -i khylo-server-docker-<newversion>-amd64.tar`, then
+`docker compose up -d`. If you used the file the first time, keep the image name `khylo/server:latest` in your compose file.
 
 ## Useful commands
 
@@ -171,7 +211,7 @@ minute or two while it sets up its database).
 
 ```bash
 docker compose down
-docker rmi khylo/server:latest
+docker rmi ghcr.io/khylo-org/khylo-server:latest
 ```
 
 Delete `./khylo-config` and `./khylo-cache` yourself if you want the library and settings gone too.

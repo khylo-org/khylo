@@ -100,7 +100,7 @@ Each release has one download per system. `<version>` looks like `26.10.101` (th
 | Debian, Ubuntu, Raspberry Pi OS | `khylo-server_<version>_amd64.deb` or `_arm64.deb` |
 | Other Linux | `khylo-server-<version>-linux-amd64.tar.gz` or `-linux-arm64.tar.gz` |
 | Proxmox | `khylo-proxmox-<version>.tar.gz` |
-| Docker | `khylo-server-docker-<version>-amd64.tar` or `-arm64.tar`, or the image `khylo/server` |
+| Docker | the image `ghcr.io/khylo-org/khylo-server` on GitHub (`docker pull ghcr.io/khylo-org/khylo-server:latest`), or `khylo-server-docker-<version>-amd64.tar` / `-arm64.tar` |
 | Android TV and Google TV app | `khylo-tv.apk` |
 
 `amd64`/`x64` means Intel and AMD processors. `arm64` means ARM processors (Apple silicon Macs, Raspberry Pi 4 and 5,

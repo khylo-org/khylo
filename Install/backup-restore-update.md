@@ -66,7 +66,7 @@ Updating never touches your data folder.
 | Linux `.deb` | `sudo apt install ./khylo-server_<newversion>_amd64.deb` |
 | Linux `.tar.gz` | Unpack the new one and run `sudo ./install.sh` again. |
 | Proxmox | `./khylo-lxc.sh --update <container number> --deb khylo-server_<newversion>_amd64.deb` |
-| Docker | `docker load -i khylo-server-docker-<newversion>-amd64.tar`, then `docker compose up -d` |
+| Docker | `docker compose pull`, then `docker compose up -d` (or load a downloaded file with `docker load -i khylo-server-docker-<newversion>-amd64.tar`, then `docker compose up -d`) |
 
 Take a backup first if you like. Khylo updates its own database when it starts on a newer version. **Don't go backwards:** a
 database that has been updated by a newer version may not open in an older one. To go back, restore a backup made before the
