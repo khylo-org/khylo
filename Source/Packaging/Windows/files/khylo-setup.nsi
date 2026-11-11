@@ -8,7 +8,12 @@
 ; app (8096) and for apps finding the server (7360), and adds Start Menu entries and an entry in Windows' Installed apps.
 ; Running it again updates Khylo and keeps the library and settings.
 ;
-; Silent install: khylo-server-...-setup.exe /S   (a first install runs as the system account; an update keeps the startup task as it is; add /D=C:\somewhere\Khylo to choose the folder)
+; Silent install: khylo-server-...-setup.exe /S   (a first install runs as the limited service account; an update keeps how Khylo already runs; add /D=C:\somewhere\Khylo to choose the folder)
+;
+; How Khylo runs (the "Account" page): as the limited LocalService account (recommended: if Khylo were ever broken into, the rest of the PC
+; is not), as the system (full access, what earlier versions did), or as a Windows account. When Khylo itself can't install updates (every
+; way except the system) a second task, "Khylo Update Helper", runs as the system every two minutes and installs an update the server has
+; staged, after checking its signature and checksum again (khylo.exe --apply-update; it ends at once when nothing is waiting).
 ; Silent uninstall: "C:\Program Files\Khylo\Uninstall.exe" /S   (keeps the library and settings)
 
 Unicode true
@@ -38,6 +43,7 @@ RequestExecutionLevel admin
 
 !define UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Khylo"
 !define TASK_NAME "Khylo Server"
+!define HELPER_TASK_NAME "Khylo Update Helper"
 !define WEB_URL "http://localhost:8096"
 
 Name "Khylo Server"
@@ -67,12 +73,15 @@ Var AccountDialog
 Var RadioLogon
 Var RadioSystem
 Var RadioUser
+Var RadioLimited
+Var PreviousMode
 Var RunMode
 Var UserBox
 Var PasswordBox
 Var RunAsUser
 Var RunAsPassword
 Var ProblemText
+Var DataAcl
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "LICENSE"
@@ -94,7 +103,7 @@ Function .onInit
   ; The Arm download only runs on Arm PCs; the Intel/AMD one also runs on Arm PCs
   !if "${ARCH}" == "arm64"
     ${If} ${IsNativeAMD64}
-      MessageBox MB_OK|MB_ICONSTOP "This is the download for Arm PCs. Please download the Intel/AMD one (the file with x64 in its name)."
+      MessageBox MB_OK|MB_ICONSTOP "This is the download for Arm PCs. Please download the Intel/AMD one (the file with x64 in its name)." /SD IDOK
       Abort
     ${EndIf}
   !endif
@@ -102,6 +111,12 @@ Function .onInit
   ReadRegStr $0 HKLM "Software\Khylo" "InstallDir"
   ${If} $0 != ""
     StrCpy $INSTDIR $0
+  ${EndIf}
+  ; How an earlier install ran Khylo. An install that didn't write this down (older versions) ran as the system.
+  ReadRegStr $PreviousMode HKLM "Software\Khylo" "RunMode"
+  ${If} $PreviousMode == ""
+  ${AndIf} $0 != ""
+    StrCpy $PreviousMode "system"
   ${EndIf}
   ExpandEnvStrings $RunAsUser "%USERDOMAIN%\%USERNAME%"
 FunctionEnd
@@ -125,34 +140,46 @@ Function AccountPage
   nsDialogs::Create 1018
   Pop $AccountDialog
 
-  ${NSD_CreateRadioButton} 0 0 100% 11u "As the system, starting with the PC (recommended)"
+  ${NSD_CreateRadioButton} 0 0 100% 11u "As a limited account made for services (recommended)"
+  Pop $RadioLimited
+  ${NSD_AddStyle} $RadioLimited ${WS_GROUP}
+  ${NSD_CreateLabel} 12u 11u 94% 17u "Khylo starts with the PC, and if anyone ever broke into it they would not get the whole PC. Network folders use the login you give Khylo for them."
+  Pop $0
+
+  ${NSD_CreateRadioButton} 0 30u 100% 11u "As the system (full access, how earlier versions ran)"
   Pop $RadioSystem
-  ${NSD_AddStyle} $RadioSystem ${WS_GROUP}
-  ${NSD_CreateLabel} 12u 11u 94% 22u "Khylo starts before anyone logs in and keeps running. In the folder picker, the network drives mapped on this PC are listed so you can connect each one with a click."
+  ${NSD_CreateLabel} 12u 41u 94% 17u "Khylo can open any folder. In the folder picker, the network drives mapped on this PC are listed so you can connect each one with a click."
   Pop $0
 
-  ${NSD_CreateRadioButton} 0 36u 100% 11u "As me, while I'm logged in"
+  ${NSD_CreateRadioButton} 0 60u 100% 11u "As me, while I'm logged in"
   Pop $RadioLogon
-  ${NSD_CreateLabel} 12u 47u 94% 22u "Khylo runs in your own session, so your mapped drive letters (X:, Y:) work directly. It only runs while you are logged in."
+  ${NSD_CreateLabel} 12u 71u 94% 17u "Khylo runs in your own session, so your mapped drive letters (X:, Y:) work directly. It only runs while you are logged in."
   Pop $0
 
-  ${NSD_CreateRadioButton} 0 72u 100% 11u "As me, even when I'm logged out"
+  ${NSD_CreateRadioButton} 0 90u 100% 11u "As me, even when I'm logged out"
   Pop $RadioUser
-  ${NSD_CreateLabel} 12u 83u 94% 22u "Starts with the PC and needs your Windows password once. Uses addresses like \\nas\Movies, not drive letters."
+  ${NSD_CreateLabel} 12u 101u 94% 17u "Starts with the PC and needs your Windows password once (below). Uses addresses like \\nas\Movies, not drive letters."
   Pop $0
 
-  ${NSD_CreateLabel} 0 110u 34u 10u "Account:"
+  ${NSD_CreateLabel} 0 122u 30u 10u "Account:"
   Pop $0
-  ${NSD_CreateText} 36u 108u 130u 12u "$RunAsUser"
+  ${NSD_CreateText} 30u 120u 100u 12u "$RunAsUser"
   Pop $UserBox
-  ${NSD_CreateLabel} 0 126u 34u 10u "Password:"
+  ${NSD_CreateLabel} 136u 122u 34u 10u "Password:"
   Pop $0
-  ${NSD_CreatePassword} 36u 124u 130u 12u ""
+  ${NSD_CreatePassword} 172u 120u 80u 12u ""
   Pop $PasswordBox
-  ${NSD_CreateLabel} 172u 126u 120u 10u "(only for the third choice)"
-  Pop $0
 
-  ${NSD_Check} $RadioSystem
+  ; An install that is run again keeps the way it ran, so nothing changes unless it is chosen here
+  ${If} $PreviousMode == "system"
+    ${NSD_Check} $RadioSystem
+  ${ElseIf} $PreviousMode == "logon"
+    ${NSD_Check} $RadioLogon
+  ${ElseIf} $PreviousMode == "always"
+    ${NSD_Check} $RadioUser
+  ${Else}
+    ${NSD_Check} $RadioLimited
+  ${EndIf}
   nsDialogs::Show
 FunctionEnd
 
@@ -160,7 +187,12 @@ Function AccountPageLeave
   StrCpy $RunMode "system"
   ${NSD_GetState} $RadioLogon $0
   ${NSD_GetState} $RadioUser $1
-  ${If} $0 == ${BST_CHECKED}
+  ${NSD_GetState} $RadioLimited $2
+  ${If} $2 == ${BST_CHECKED}
+    StrCpy $RunMode "limited"
+    StrCpy $RunAsUser ""
+    StrCpy $RunAsPassword ""
+  ${ElseIf} $0 == ${BST_CHECKED}
     StrCpy $RunMode "logon"
     ${NSD_GetText} $UserBox $RunAsUser
     StrCpy $RunAsPassword ""
@@ -190,7 +222,12 @@ Section "Khylo Server" SecMain
   SetRegView 64
   Call EnsureKhyloFolder
   ${If} ${Silent}
-    StrCpy $RunMode "system"
+    ; An update keeps how Khylo already runs; a first silent install gets the limited account
+    ${If} $PreviousMode == ""
+      StrCpy $RunMode "limited"
+    ${Else}
+      StrCpy $RunMode $PreviousMode
+    ${EndIf}
     StrCpy $RunAsUser ""
     StrCpy $RunAsPassword ""
   ${EndIf}
@@ -198,6 +235,11 @@ Section "Khylo Server" SecMain
   ; An update: stop the running copy first, and clear out the old program files (the library and settings live elsewhere)
   DetailPrint "Stopping Khylo if it is running..."
   nsExec::ExecToLog 'schtasks /End /TN "${TASK_NAME}"'
+  Pop $0
+  ; The update helper runs khylo.exe, which can't be replaced while it runs: stopped and removed here, set up again below
+  nsExec::ExecToLog 'schtasks /End /TN "${HELPER_TASK_NAME}"'
+  Pop $0
+  nsExec::ExecToLog 'schtasks /Delete /TN "${HELPER_TASK_NAME}" /F'
   Pop $0
   Sleep 3000
   ${If} ${FileExists} "$INSTDIR\khylo.exe"
@@ -209,15 +251,52 @@ Section "Khylo Server" SecMain
   File /r "Khylo\*.*"
   File "khylo.ico"
 
+  ; The program folder is for administrators to change; everyone else may only read and run it. The update helper runs khylo.exe from
+  ; here as the system, so the account Khylo runs as (and every other user) must not be able to replace it, whichever folder was chosen.
+  ; Anything set by hand on the folder itself is cleared first, then nothing is inherited and only these three are listed.
+  nsExec::ExecToLog 'icacls "$INSTDIR" /reset /Q'
+  Pop $0
+  nsExec::ExecToLog 'icacls "$INSTDIR" /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F *S-1-5-32-545:(OI)(CI)RX /Q'
+  Pop $0
+
+  ; Where the system keeps what an update needs (its copy of the installer, the update script and the backup). It sits beside Khylo's
+  ; folder, not inside it, because the account Khylo runs as can change everything inside that one. A link left in its place is removed
+  ; (never followed), then the folder is owned by the administrators and open only to them and the system.
+  RMDir "$APPDATA\KhyloUpdate"
+  CreateDirectory "$APPDATA\KhyloUpdate"
+  nsExec::ExecToLog 'icacls "$APPDATA\KhyloUpdate" /setowner *S-1-5-32-544 /Q'
+  Pop $0
+  nsExec::ExecToLog 'icacls "$APPDATA\KhyloUpdate" /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F /Q'
+  Pop $0
+
   ; The library, settings, cache and logs live apart from the program, so updates never touch them
   CreateDirectory "$APPDATA\Khylo"
   CreateDirectory "$APPDATA\Khylo\data"
   CreateDirectory "$APPDATA\Khylo\config"
   CreateDirectory "$APPDATA\Khylo\cache"
+  CreateDirectory "$APPDATA\Khylo\cache\update-stage"
   CreateDirectory "$APPDATA\Khylo\log"
   ${If} $RunAsUser != ""
     nsExec::ExecToLog 'icacls "$APPDATA\Khylo" /grant "$RunAsUser:(OI)(CI)F" /T /C /Q'
     Pop $0
+  ${EndIf}
+
+  ; Khylo's folders hold the library, every login and the plug-ins and updates Khylo runs, so only administrators (and the
+  ; account Khylo runs as, granted above or by an earlier install) may open them. ProgramData's default lets every user on
+  ; this PC read them and add files to them. One command takes the inherited everyone-groups out and lists the owners. Windows
+  ; has to rewrite the permissions on every file inside, which on a big library (artwork, thumbnails, trickplay: a million files)
+  ; takes minutes the first time an older install is updated, and nothing the second time. So unless Khylo runs as the limited
+  ; account (a new install, an empty folder), it runs in the background and Khylo starts straight away instead of waiting for it.
+  ; The limited account (LocalService) may read and change what is inside, but not who else can open it (Modify, not Full
+  ; control). Any other way of running drops that entry.
+  DetailPrint "Making Khylo's folders private to administrators..."
+  ${If} $RunMode == "limited"
+    StrCpy $DataAcl 'icacls "$APPDATA\Khylo" /inheritance:r /grant:r "*S-1-5-18:(OI)(CI)F" "*S-1-5-32-544:(OI)(CI)F" "*S-1-5-19:(OI)(CI)M" /Q'
+    nsExec::ExecToLog '$DataAcl'
+    Pop $0
+  ${Else}
+    StrCpy $DataAcl 'icacls "$APPDATA\Khylo" /inheritance:r /grant:r "*S-1-5-18:(OI)(CI)F" "*S-1-5-32-544:(OI)(CI)F" /remove:g "*S-1-5-19" /Q'
+    ExecShell "open" "$SYSDIR\cmd.exe" '/c $DataAcl' SW_HIDE
   ${EndIf}
 
   ; A silent update (Khylo updating itself) keeps the startup task as it is, so the account it runs as is not changed
@@ -232,6 +311,7 @@ Section "Khylo Server" SecMain
   ${Else}
     Call CreateStartupTask
   ${EndIf}
+  Call CreateUpdateHelperTask
   Call OpenFirewall
 
   ; Start Menu, and the entry in Windows' Installed apps
@@ -243,6 +323,7 @@ Section "Khylo Server" SecMain
 
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   WriteRegStr HKLM "Software\Khylo" "InstallDir" "$INSTDIR"
+  WriteRegStr HKLM "Software\Khylo" "RunMode" "$RunMode"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayName" "Khylo Server"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "DisplayVersion" "${BUILD}"
   WriteRegStr HKLM "${UNINSTALL_KEY}" "Publisher" "Khylo"
@@ -278,6 +359,9 @@ Function CreateStartupTask
     FileWriteUTF16LE $0 '  <Triggers><BootTrigger><Enabled>true</Enabled></BootTrigger><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT5M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
     ${If} $RunMode == "always"
       FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>$RunAsUser</UserId><LogonType>Password</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+    ${ElseIf} $RunMode == "limited"
+      ; The built-in LocalService account (S-1-5-19): no password, and none of the rights of the system
+      FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-19</UserId></Principal></Principals>$\r$\n'
     ${Else}
       FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
     ${EndIf}
@@ -320,8 +404,55 @@ Function CreateStartupTask
   Delete $1
   ${If} $2 != 0
     DetailPrint "Windows would not set up the startup task: $ProblemText"
-    MessageBox MB_OK|MB_ICONSTOP "Khylo's files are in place, but Windows would not set Khylo to start with the PC:$\r$\n$\r$\n$ProblemText$\r$\nRun this setup again to retry (check the account name and password if you chose your Windows account)."
+    MessageBox MB_OK|MB_ICONSTOP "Khylo's files are in place, but Windows would not set Khylo to start with the PC:$\r$\n$\r$\n$ProblemText$\r$\nRun this setup again to retry (check the account name and password if you chose your Windows account)." /SD IDOK
     Abort
+  ${EndIf}
+FunctionEnd
+
+; The update helper: a task that runs as the system every two minutes and installs an update the server has staged (khylo.exe
+; --apply-update). It ends at once when nothing is waiting. It is only needed when Khylo itself can't install updates, which is every
+; way of running except as the system; it re-checks the update's signature and checksum itself and only installs a newer build.
+Function CreateUpdateHelperTask
+  ${If} $RunMode == "system"
+    DeleteRegValue HKLM "Software\Khylo" "UpdateHelper"
+    Return
+  ${EndIf}
+  GetTempFileName $1
+  FileOpen $0 $1 w
+  FileWriteUTF16LE /BOM $0 '<?xml version="1.0" encoding="UTF-16"?>$\r$\n'
+  FileWriteUTF16LE $0 '<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">$\r$\n'
+  FileWriteUTF16LE $0 '  <RegistrationInfo><Description>Installs the Khylo update the server has staged, after checking it again. Does nothing when no update is waiting.</Description></RegistrationInfo>$\r$\n'
+  FileWriteUTF16LE $0 '  <Triggers><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT2M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
+  FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
+  FileWriteUTF16LE $0 '  <Settings>$\r$\n'
+  FileWriteUTF16LE $0 '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>$\r$\n'
+  FileWriteUTF16LE $0 '    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>$\r$\n'
+  FileWriteUTF16LE $0 '    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>$\r$\n'
+  FileWriteUTF16LE $0 '    <AllowHardTerminate>true</AllowHardTerminate>$\r$\n'
+  FileWriteUTF16LE $0 '    <StartWhenAvailable>true</StartWhenAvailable>$\r$\n'
+  FileWriteUTF16LE $0 '    <AllowStartOnDemand>true</AllowStartOnDemand>$\r$\n'
+  FileWriteUTF16LE $0 '    <Enabled>true</Enabled>$\r$\n'
+  FileWriteUTF16LE $0 '    <Hidden>true</Hidden>$\r$\n'
+  FileWriteUTF16LE $0 '    <ExecutionTimeLimit>PT10M</ExecutionTimeLimit>$\r$\n'
+  FileWriteUTF16LE $0 '    <Priority>7</Priority>$\r$\n'
+  FileWriteUTF16LE $0 '  </Settings>$\r$\n'
+  FileWriteUTF16LE $0 '  <Actions Context="Author"><Exec>$\r$\n'
+  FileWriteUTF16LE $0 '    <Command>$INSTDIR\khylo.exe</Command>$\r$\n'
+  FileWriteUTF16LE $0 '    <Arguments>--apply-update --cachedir "$APPDATA\Khylo\cache"</Arguments>$\r$\n'
+  FileWriteUTF16LE $0 '    <WorkingDirectory>$INSTDIR</WorkingDirectory>$\r$\n'
+  FileWriteUTF16LE $0 '  </Exec></Actions>$\r$\n'
+  FileWriteUTF16LE $0 '</Task>$\r$\n'
+  FileClose $0
+  DetailPrint "Setting up the update helper..."
+  nsExec::ExecToStack 'schtasks /Create /TN "${HELPER_TASK_NAME}" /XML "$1" /F'
+  Pop $2
+  Pop $ProblemText
+  Delete $1
+  ${If} $2 != 0
+    DetailPrint "Windows would not set up the update helper: $ProblemText"
+    DeleteRegValue HKLM "Software\Khylo" "UpdateHelper"
+  ${Else}
+    WriteRegDWORD HKLM "Software\Khylo" "UpdateHelper" 1
   ${EndIf}
 FunctionEnd
 
@@ -373,6 +504,10 @@ Section "Uninstall"
   Pop $0
   nsExec::ExecToLog 'schtasks /Delete /TN "${TASK_NAME}" /F'
   Pop $0
+  nsExec::ExecToLog 'schtasks /End /TN "${HELPER_TASK_NAME}"'
+  Pop $0
+  nsExec::ExecToLog 'schtasks /Delete /TN "${HELPER_TASK_NAME}" /F'
+  Pop $0
   Sleep 3000
 
   nsExec::ExecToLog 'netsh advfirewall firewall delete rule name="Khylo Server (web)"'
@@ -389,9 +524,10 @@ Section "Uninstall"
 
   ; Only ever the Khylo folder (the installer makes sure the folder is called Khylo)
   RMDir /r "$INSTDIR"
+  RMDir /r "$APPDATA\KhyloUpdate"
 
   ${IfNot} ${Silent}
-    MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 "Also delete your Khylo library, users and settings in $APPDATA\Khylo?$\r$\n$\r$\nThis cannot be undone. Choose No to keep them (for example if you plan to install Khylo again)." IDNO keepData
+    MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 "Also delete your Khylo library, users and settings in $APPDATA\Khylo?$\r$\n$\r$\nThis cannot be undone. Choose No to keep them (for example if you plan to install Khylo again)." /SD IDNO IDNO keepData
     ; A library holds tens of thousands of small files (artwork, metadata); NSIS deletes them one by one and shows nothing,
     ; which looks frozen. Windows' robocopy empties a folder in parallel, many times faster.
     DetailPrint "Deleting your library, users and settings (this can take a few minutes)..."

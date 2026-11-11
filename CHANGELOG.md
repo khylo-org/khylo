@@ -2,9 +2,44 @@
 
 ## November 2026
 
-### Build DEV-V26.11.08.11
+### Build DEV-V26.11.10.02
+**New**
+- **Web — Scan just one library.** Every library on the Media Libraries page now has its own Scan button, so you can refresh one library without scanning all of them.
+- **Web — Turn automatic scanning on or off for a library.** A library's edit page has a new Automatic Scanning switch. Libraries still update themselves when files are added or changed, and now you can turn that off for one library (or back on) whenever you like. The change takes effect straight away. Folders on a network share (a NAS) often can't report changes, so scan those with the Scan button.
+**Fixed**
+- **Server — Updating on Windows no longer keeps Khylo stopped for minutes on a big library.** Updating from an older version re-checked the permissions on every file in Khylo's data folder before starting Khylo again, which took about six minutes on a very large library. It now does that in one pass in the background, so Khylo starts straight away, and it does nothing on later updates.
+- **Web — The Live TV guide keeps your place.** After you watch a channel and come back, the guide is where you left it: the same channels loaded, the same category and search, the same highlighted channel and the same spot in the list, instead of starting again at the top.
+- **Web — White channel logos can be seen.** Channel logos that are white or very light used to disappear on their light tile. They now sit on a dark tile, and dark and colourful logos keep the light one.
+
+### Build DEV-V26.11.10.01
+**New**
+- **Server — The Docker image is hosted on GitHub.** Khylo's Docker image can now be pulled straight from GitHub (ghcr.io/khylo-org/khylo-server) as one image for Intel/AMD and Arm computers, and updated with "docker compose pull". The downloadable Docker files are still there for computers that can't reach GitHub.
+- **Web — Back to Khylo from the server console.** The server console now has a "Back to Khylo" button at the top of its menu, so you can get from the admin pages to the Khylo web app without typing an address.
+- **Web — Allowed Websites setting.** Networking now has a place to list the websites that may use your server from a browser.
+- **Server — Khylo can run as a limited Windows account.** A new Khylo Server for Windows now runs as Windows' own limited "Local Service" account instead of the all-powerful system account, so a flaw in Khylo can no longer take over the whole PC. The installer lets you pick either one, and an existing install keeps the way it ran until you choose otherwise. Updating from the dashboard still works: Khylo downloads and checks the update, and a small update helper that runs on the PC checks it again on its own before it installs anything.
 **Fixed**
 - **Server — The update note matches the version you're running.** On the Updates page, the green note ("Khylo updated to…") now shows only while that version is the one running. Before, it could keep naming an older version for up to a day after you had updated again.
+- **Server — A clear message for folders Khylo can't open.** When Khylo runs as the limited account and you add a library folder it isn't allowed to open, it now says which account to give access to instead of just failing.
+- **Server — An update can't get stuck on a message nobody can see.** If Windows refuses to set up Khylo's startup task during a quiet install or an automatic update, the installer now stops with an error instead of waiting for someone to click OK on a window that is never shown.
+**Improved**
+- **Server — Docker servers explain how to update.** On Docker, the Update page now gives the actual steps (pull the new image, then recreate the container) instead of a general message. Docker can't replace its own image from the inside, so the install itself is still done where Docker runs.
+- **Server — Updates are checked before they are installed.** Before Khylo installs an update it now checks that the update's file list carries Khylo's own signature, and it won't install one that doesn't. Only updates published by Khylo can be installed this way.
+- **Server — Khylo's files are private to administrators.** On Windows, the folder that holds your library, settings and plug-ins can now be opened only by administrators and the account Khylo runs as. Before, anyone with a login on the same PC could open it. Installing this version sets it up, including when Khylo updates itself. Khylo also checks this each time it starts, so a portable copy or a folder you chose yourself is covered too, and invitation codes are no longer written to the log.
+- **Server — Switching to an administrator's profile needs its PIN.** In a home with profiles, an administrator's profile can now only be entered with its PIN. If it doesn't have one yet, set one while signed in to that profile. PINs are four to eight digits and are now stored in a stronger way.
+- **Server — Setting up a new server works only from your home network.** Until the first-time setup is finished, only this computer and your home network can use it, so a new server that is reachable from the internet can't be set up by someone else.
+- **Server — Other websites can no longer use your server from a browser.** Your server now answers only its own web address and the websites you list under Networking, Allowed Websites (for example a casting receiver). A server reached over https under a real web address also tells browsers to always use https.
+- **Server — Passwords need at least 8 characters.** A blank or very easy password (such as "password" or "12345678") is no longer accepted when someone chooses or changes a password, including in setup and invitations. Passwords that already exist keep working until they are changed.
+- **Server — Wrong guesses can't lock you out of your own account.** Someone guessing at an account from elsewhere now only stops themselves, and you can still sign in from a device you already use. Changing a password, and using a reset PIN, are slowed down the same way.
+- **Server — Collections follow their permission.** Only people who are allowed to manage collections, and administrators, can create or change them. Profiles without that permission, such as kids profiles, can't.
+- **Server — The server statistics page is for administrators.** The page of statistics that monitoring tools read now needs an administrator's access key.
+- **Server — Developer test tools are off.** The tools that make up test listening history are now off unless a developer turns them on.
+- **Server — Docker no longer gets extra privileges unless you want network shares.** The normal Docker setup now runs with no extra permissions. To connect network shares, add the extra file described in the Docker guide.
+- **Web — Networking settings no longer pick up saved logins.** The browser's saved sign-in is no longer filled into the certificate fields.
+- **Server — Invitations are safer.** An invitation with one use left can only be used once, even if several people try at the same moment. Trying invitation codes over and over is slowed down, and an invitation that fails no longer shows details of what went wrong inside.
+- **Server — Subtitles and fonts need a sign-in away from home.** From your home network they work as before; from the internet the player has to be signed in.
+- **Server — Unused devices are signed out after 90 days.** A phone, TV or browser that hasn't used its sign-in for 90 days has to sign in again.
+- **Server — Picking channels from a very large playlist uses less memory.** Khylo now keeps only the last few playlists it downloaded.
+- **Server — Only administrators can change the program files.** The folder Khylo is installed in can now be changed only by administrators, whichever folder you chose to install it in.
 
 ### Build DEV-V26.11.08.09
 **Fixed**

@@ -7,8 +7,8 @@ ARM (`arm64`) PCs.
 
 <!-- khylo-downloads:windows -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.11/khylo-server-26.11.08.11-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.11/khylo-server-26.11.08.11-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-26.11.10.02-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-26.11.10.02-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center">Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</p>
@@ -33,14 +33,24 @@ The first start can take a minute or two while Khylo prepares its database.
 
 ### How Khylo runs (the third step of the setup)
 
-- **As the system, starting with the PC (recommended).** Khylo starts before anyone logs in and keeps running. Windows
-  keeps drive letters private to each login, so the system can't use your `X:` directly. Instead, the folder picker lists the
-  drives mapped on this PC under their letters (for example `X: \\bb02.\dfs01`). Click one: if Khylo can open it, it opens;
-  if not, it asks for your login for that share once, remembers it, and keeps it connected.
+- **As a limited account made for services (recommended).** Khylo starts before anyone logs in and keeps running, as
+  Windows' built-in *Local Service* account. If someone ever broke into Khylo, they would get that small account, not the
+  whole PC. Khylo can open the folders that every user of the PC can open (a data drive such as `D:\Media` usually is);
+  for a folder in someone's own profile, give *LOCAL SERVICE* read access (right-click the folder, Properties, Security).
+  If Khylo can't open a folder you add as a library, it tells you which account to give access to. Network folders work
+  through the login you give Khylo for them (see below). The dashboard can't restart or shut down the PC itself in this
+  mode (restarting Khylo works).
+- **As the system, with full access (how earlier versions ran).** Khylo starts before anyone logs in and can open any
+  folder. Windows keeps drive letters private to each login, so the system can't use your `X:` directly. Instead, the folder
+  picker lists the drives mapped on this PC under their letters (for example `X: \\bb02.\dfs01`). Click one: if Khylo can open
+  it, it opens; if not, it asks for your login for that share once, remembers it, and keeps it connected.
 - **As me, while I'm logged in.** Khylo runs in your own desktop session, so your mapped drive letters work directly, but it
   only runs while you're logged in.
 - **As me, even when I'm logged out.** Starts with the PC and needs your Windows password once (Windows keeps it, Khylo never
   sees it). Uses full addresses like `\\nas\Movies` rather than drive letters.
+
+Running the installer again keeps the way Khylo ran before, so nothing changes unless you choose a different one. To
+change from the system to the limited account (or back), run the installer again and pick it on that page.
 
 A mapped drive that shows a red X in File Explorer is disconnected. Connecting it from Khylo's folder picker reconnects it
 for Khylo. See [network drives](network-drives.md).
@@ -54,6 +64,7 @@ for Khylo. See [network drives](network-drives.md).
 | Logs | `C:\ProgramData\Khylo\log` |
 | Artwork and temporary files | `C:\ProgramData\Khylo\cache` |
 | The video converter (ffmpeg) | `C:\Program Files\Khylo\ffmpeg` |
+| The last update's installer, log and backup (kept by the system, open to administrators only) | `C:\ProgramData\KhyloUpdate` |
 
 ## Running it
 
@@ -98,13 +109,17 @@ Your library and settings are kept, and Khylo is back within a minute or two.
   answer within about three minutes, the old one is put back and the dashboard says so.
 - **Skip this one** ignores a build; the next newer one is offered again.
 
-Updating itself needs Khylo to run as the system account (the installer's default) or as an administrator. If Khylo runs as a
-regular Windows user, the panel says so and you update the old way: download the new installer and run it. Either way, running
-the installer yourself still works, and it keeps the account Khylo runs as.
+If Khylo runs as the system or as an administrator it installs the update itself. If it runs as the limited account (or as
+a regular Windows user), it can't install anything, so the installer also sets up a small **update helper**, a task that runs
+as the system every two minutes. Khylo downloads the update and checks it, then leaves it for the helper, which checks the
+signature and the checksum again on its own, installs only a newer build, and puts the old version back if the new one
+doesn't start. In the dashboard it works the same way, with an extra minute or two. If the helper is missing (the
+installer couldn't set it up), the panel says so and you update the old way: download the new installer and run it. Either
+way, running the installer yourself still works, and it keeps the way Khylo runs.
 
 ## Removing it
 
-Settings > Apps > Installed apps > **Khylo Server** > Uninstall. This removes the program, the startup task and the firewall
+Settings > Apps > Installed apps > **Khylo Server** > Uninstall. This removes the program, the startup and update tasks and the firewall
 rules. It asks whether to delete your library and settings in `C:\ProgramData\Khylo` too; choose **No** to keep them.
 
 ## Just try it, without installing
@@ -121,7 +136,8 @@ khylo-server-<version>-windows-x64-setup.exe /S /D=D:\Apps\Khylo
 "C:\Program Files\Khylo\Uninstall.exe" /S
 ```
 
-`/S` installs silently and runs Khylo as the system. `/D=` must be last and the folder should be called `Khylo`. A silent
+`/S` installs silently. A first install runs Khylo as the limited account; an update keeps the way Khylo already runs (an
+install from before this choice existed ran as the system, and stays that way). `/D=` must be last and the folder should be called `Khylo`. A silent
 uninstall keeps your library and settings.
 
 ## Troubleshooting

@@ -7,7 +7,7 @@ It needs a **Khylo Server** to connect to. If you haven't set one up yet, start 
 
 <!-- khylo-downloads:tv -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.11/khylo-tv.apk"><img alt="Download DEV Android TV" src="https://img.shields.io/badge/Download%20DEV-Android%20TV-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-tv.apk"><img alt="Download DEV Android TV" src="https://img.shields.io/badge/Download%20DEV-Android%20TV-d97732?style=for-the-badge"></a>
 </p>
 
 <p align="center">Needs a Khylo Server to connect to. <a href="https://github.com/khylo-org/khylo/blob/main/Install/android-tv.md">How to install it on your TV</a></p>
@@ -58,7 +58,9 @@ adb install khylo-tv.apk
 2. Sign in with your **username and password**, or with **Quick Connect**: the TV shows a six-digit code and a QR code,
    and you approve it from a device that is already signed in to Khylo (the web app's Quick Connect page, or the
    iPhone app's **Add a Device**). No typing a password with a remote.
-3. Pick your profile and enjoy.
+3. Pick your profile and enjoy. Khylo opens on **Who's watching?** every time, so a TV that several people share never opens
+   into someone else's profile. To open straight into the profile used last instead, choose **Settings**, then **Auto sign-in**,
+   then **Most recently used**.
 
 ## Updating
 
@@ -69,6 +71,9 @@ Install the new `khylo-tv.apk` the same way. It installs over the old one and ke
 - **"App not installed":** there may not be enough free space on the TV. Remove an app you don't use and try again.
 - **The TV can't find your server:** the TV and the server must be on the same network. Check that the server is running,
   and that port 8096 (and 7360 for finding the server by itself) is allowed through its firewall. Or type the address.
+- **Your server uses its own certificate (self-signed, or from your own authority):** when you add the server the TV shows
+  the certificate and its fingerprint. Check it is yours and choose **Trust this server**. The TV remembers it. A certificate
+  from a public authority (Let's Encrypt and the like) needs nothing.
 - More help: [troubleshooting](troubleshooting.md).
 
 The code for this app is in the [khylo-androidtv](https://github.com/khylo-org/khylo-androidtv) repository.

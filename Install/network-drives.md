@@ -27,7 +27,7 @@ You can disconnect a share from the same place; nothing on the share is changed.
 
 ### What this needs
 
-- **Docker:** the three container settings in the [Docker guide](docker.md) (`SYS_ADMIN`, `DAC_READ_SEARCH`, `apparmor:unconfined`).
+- **Docker:** start Khylo with the extra `docker-compose.shares.yml` file, which gives the container the three settings it needs (see the [Docker guide](docker.md#network-drives)).
 - **Linux:** nothing extra; the installer sets up a small mount helper that only accepts SMB and NFS shares.
 - **Proxmox:** a privileged container (the default). With `--unprivileged`, mount the share on the Proxmox host and pass it in with `--media`.
 - The NAS must be reachable from the server (same network, or routed), and its share must allow your user to read it.
@@ -69,5 +69,6 @@ your login, and tick "Remember this password in my keychain". Then add a library
 | The share connects but the folder is empty | The login can see the share but not the files inside. Check the NAS's permissions for that user. |
 | It worked, then stopped after a NAS reboot | Khylo reconnects by itself within a minute or so after the NAS is back. If not, remove the share and add it again. |
 | Slow scanning | Network shares are slower than local disks. A wired connection and a recent SMB version help. |
+| New files don't show up by themselves | Khylo notices new files by watching the folder, and many NAS shares can't report changes. Press **Scan** on that library (Dashboard > Media Libraries), or let the scheduled library scan find them. |
 
 More in [troubleshooting](troubleshooting.md).

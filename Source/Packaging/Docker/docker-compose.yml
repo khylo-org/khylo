@@ -2,6 +2,8 @@
 #
 #   docker compose up -d
 #
+# Update:  docker compose pull && docker compose up -d   (the image is hosted on GitHub: ghcr.io/khylo-org/khylo-server)
+#
 # Then open http://<this machine>:8096 and follow the setup.
 #
 # Media on a NAS or another computer: when you add a library, choose "Network share" in the folder
@@ -10,7 +12,7 @@
 
 services:
   khylo:
-    image: khylo/server:latest
+    image: ghcr.io/khylo-org/khylo-server:latest
     build:
       context: ../..
       dockerfile: Source/Packaging/Docker/Dockerfile
@@ -26,14 +28,8 @@ services:
     # group_add:
     #   - video
     #   - render
-    # Khylo itself runs as an ordinary user. These lines only let its small mount helper connect the Windows/SMB and
-    # NFS shares you add in the folder picker. Never adding network shares? Delete these four lines (cap_add and
-    # security_opt) and the container will have no extra privileges at all.
-    cap_add:
-      - SYS_ADMIN
-      - DAC_READ_SEARCH
-    security_opt:
-      - apparmor:unconfined
+    # Khylo runs as an ordinary user with no extra privileges. To connect Windows/SMB or NFS network shares from inside
+    # Khylo, start it with the extra file next to this one (docker-compose.shares.yml); see the note at the top of it.
     volumes:
       # Settings, users and the library database
       - ./khylo-config:/config

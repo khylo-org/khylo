@@ -30,3 +30,4 @@ The iPhone doesn't show its own Quick Connect code. Scan to Sign In does that jo
 - Every request to the server, including before sign-in, sends the normal `Authorization: MediaBrowser Client=…, Device=…, DeviceId=…, Version=…` header. Without it the server turns down Quick Connect and Scan to Sign In.
 - Use plain messages for failures: the code ran out, the code is from a different server, too many tries, Quick Connect is turned off, the server can't be reached.
 - Use only real addresses, menu names and codes. No placeholders.
+- **Android TV opens on "Who's watching?"** every time it starts, so a shared TV never opens straight into someone else's profile. Choosing a saved profile there signs in at once. Someone who prefers it can choose **Settings, Auto sign-in, Most recently used** to open straight into the last profile.

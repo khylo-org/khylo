@@ -25,6 +25,10 @@ step can be skipped and done later from the dashboard.
 When you finish, Khylo scans your libraries. The first scan of a large library can take a while (it fetches artwork and
 details for every title); you can use Khylo while it works.
 
+After that, a library updates itself a short while after files are added or changed (this can be turned off for a library on its
+edit page, under **Automatic Scanning**). To refresh just one library by hand, press **Scan** on its row under **Dashboard >
+Media Libraries**.
+
 ## Adding media libraries
 
 In setup, or later in the dashboard under **Libraries**, add a library for each kind of media:

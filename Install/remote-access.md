@@ -59,7 +59,16 @@ Check Cloudflare's current terms for streaming video on their free plan before r
 In the dashboard under **Networking**:
 
 - Add the proxy's address under **Known proxies**, so Khylo trusts the forwarded addresses and shows real client addresses.
-- Set the addresses that count as your **local network**, so Khylo knows who is home.
+- Set the addresses that count as your **local network**, so Khylo knows who is home. Keep this as narrow as your
+  network allows: everyone on these addresses is treated as at home (signing in without the remote-access permission, no
+  streaming limits, no sign-in needed for subtitles). A whole range such as `10.0.0.0/8` includes every device on it,
+  guests and smart gadgets too.
+
+If you leave **Known proxies** empty, Khylo believes the forwarded addresses of any device on your home network (and of
+this computer). That suits a proxy at home, but a device that isn't a proxy could then claim to be someone else, so set
+**Known proxies** once you use one. In Docker on Windows or Mac, and behind some routers, every connection arrives from
+one internal address, so everyone looks like they are at home: set **Known proxies** to the proxy's address (or leave remote
+access off) and don't rely on the home-network rules there.
 
 The first time you open Khylo through your web address, it remembers that address. Sign-in codes (QR codes) and invitation
 links then use it from then on, and the apps can switch between your home address and your web address by themselves.
@@ -75,6 +84,11 @@ Expose only the proxy's HTTPS port (443). Do not forward port 8096 or 7360 strai
 - Give each person their own account; use **Home profiles** only for people who share a home.
 - Consider limiting remote streaming quality in the dashboard under **Playback > Streaming** if your upload speed is low.
 - Check **Activity** and **Devices** in the dashboard now and then for sign-ins you don't recognise.
+- A device that hasn't been used for 90 days is signed out by the server; signing in again makes a new sign-in.
+- Some pages, pictures and subtitles are asked for with the sign-in key in the web address (for example `ApiKey=...`),
+  because a browser can't send a header for them. Proxies write addresses to their logs, so turn off or hide the query
+  string in your proxy's access log (in Nginx, log `$uri` instead of `$request_uri`) and don't share screenshots of
+  addresses.
 
 ## HTTPS directly in Khylo
 

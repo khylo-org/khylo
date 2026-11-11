@@ -1,0 +1,20 @@
+# Network shares for Khylo in Docker (optional).
+#
+# Khylo connects Windows/SMB and NFS shares itself (when you add a library, choose "Network share"). Linux only lets a
+# container mount a share when it is given these extra permissions, so they are kept out of the normal docker-compose.yml:
+# a container that never connects a share should not have them. Khylo itself still runs as an ordinary user; the
+# permissions are used only by its small mount helper (which accepts nothing but SMB and NFS shares under /shares).
+#
+# Start Khylo with both files:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.shares.yml up -d
+#
+# To stop using network shares, start it with docker-compose.yml alone again.
+
+services:
+  khylo:
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined

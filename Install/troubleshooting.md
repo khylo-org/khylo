@@ -64,6 +64,10 @@ different network segment (VLAN) or guest Wi-Fi for the TV, a firewall blocking 
   with the year, and shows in `Show/Season 01/`.
 - **It hasn't finished scanning.** A first scan of a big library takes time. Look at **Dashboard > Scheduled tasks** for the
   library scan, or press **Scan all libraries**.
+- **New files don't show up by themselves.** Khylo watches each library's folders and updates the library a short while after
+  files are added. Folders on a network share (a NAS) often can't report changes, so scan those yourself: on **Dashboard > Media
+  Libraries**, press the **Scan** button on that library's row (this scans only that one). You can turn the watching off or on for
+  a library on its edit page, under **Automatic Scanning**.
 - **Wrong match.** Open the title, choose **Identify**, and pick the right one.
 
 ## Network drive problems

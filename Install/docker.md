@@ -6,9 +6,11 @@ supports Intel/AMD (`amd64`) and ARM (`arm64`) hosts.
 
 <!-- khylo-downloads:docker -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.11/khylo-server-docker-26.11.08.11-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.08.11/khylo-server-docker-26.11.08.11-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-docker-26.11.10.02-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-docker-26.11.10.02-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
+
+<p align="center">Or pull the image from GitHub (Intel/AMD and Arm): <code>docker pull ghcr.io/khylo-org/khylo-server:latest</code></p>
 <!-- /khylo-downloads -->
 
 Good for: Synology (Container Manager), Unraid, TrueNAS, QNAP, Portainer, a home server, or any Windows, Mac or Linux
