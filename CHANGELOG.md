@@ -2,6 +2,16 @@
 
 ## November 2026
 
+### Build DEV-V26.11.12.01
+**Fixed**
+- **Server — Minor bug fixes.**
+
+### Build DEV-V26.11.11.02
+**Fixed**
+- **Server — Giving Khylo access to a folder now covers every folder inside it (Windows).** After giving Khylo access to a media folder, some folders inside it could still be locked (folders that have permissions of their own, common on file servers), and each needed its own click. One click now covers the whole folder and everything in it, and the page only says it worked when Khylo can really open every folder inside.
+- **Server — Khylo no longer skips locked folders without saying so.** A library scan used to leave out any folder Khylo wasn't allowed to open, so titles were just missing. The folder picker and each library now say how many folders Khylo can't read and name one, with the steps to fix it for your kind of server.
+- **Web — Select Path takes care of access.** Choosing a folder Khylo can't read for a library now gives Khylo access as part of Select Path, with progress while Windows works through a big folder, instead of leaving you on a lock screen.
+
 ### Build DEV-V26.11.11.01
 **New**
 - **Server — Give Khylo access to a media folder from Khylo itself (Windows).** When Khylo runs as the limited Windows account and isn't allowed into a folder, the folder picker now says so and shows a "Give Khylo access to this folder" button. One click and Khylo can read that folder and what is inside it, and nothing else on the PC. A second option lets Khylo add and delete files there too, for recordings or deleting from Khylo. It usually takes under a minute.

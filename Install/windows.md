@@ -7,8 +7,8 @@ ARM (`arm64`) PCs.
 
 <!-- khylo-downloads:windows -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-26.11.11.01-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-26.11.11.01-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.12.01/khylo-server-26.11.12.01-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.12.01/khylo-server-26.11.12.01-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center">Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</p>
@@ -37,8 +37,10 @@ The first start can take a minute or two while Khylo prepares its database.
   Windows' built-in *Local Service* account. If someone ever broke into Khylo, they would get that small account, not the
   whole PC. Khylo can open the folders that every user of the PC can open. For any other folder, the folder picker says
   that Khylo isn't allowed in and shows **Give Khylo access to this folder**: click it and, usually within a minute, Khylo
-  can read that folder and what is inside it (tick the box to also let it add and delete files there, for recordings or
-  deleting from Khylo). A very big folder takes Windows longer. Khylo is never given Windows' own folders, the programs, or
+  can read that folder and everything inside it, including folders that have their own permissions (tick the box to also let
+  it add and delete files there, for recordings or deleting from Khylo). Choosing a folder with **Select Path** does this for
+  you. A very big folder takes Windows longer, and the page shows how many folders are still locked until it is done. Each
+  library also says when Khylo can't read some of its folders, so a scan never skips them without telling you. Khylo is never given Windows' own folders, the programs, or
   a whole user profile this way: keep media in a folder of its own. You can also do it by hand: give *LOCAL SERVICE* access
   to the folder (right-click it, Properties, Security). Network folders work
   through the login you give Khylo for them (see below). The dashboard can't restart or shut down the PC itself in this

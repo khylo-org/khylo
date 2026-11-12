@@ -433,7 +433,8 @@ Function CreateUpdateHelperTask
   FileWriteUTF16LE $0 '    <AllowStartOnDemand>true</AllowStartOnDemand>$\r$\n'
   FileWriteUTF16LE $0 '    <Enabled>true</Enabled>$\r$\n'
   FileWriteUTF16LE $0 '    <Hidden>true</Hidden>$\r$\n'
-  FileWriteUTF16LE $0 '    <ExecutionTimeLimit>PT10M</ExecutionTimeLimit>$\r$\n'
+  ; Giving Khylo access to a very big media folder (permissions on every folder in it) can take a long while; one run at a time
+  FileWriteUTF16LE $0 '    <ExecutionTimeLimit>PT3H</ExecutionTimeLimit>$\r$\n'
   FileWriteUTF16LE $0 '    <Priority>7</Priority>$\r$\n'
   FileWriteUTF16LE $0 '  </Settings>$\r$\n'
   FileWriteUTF16LE $0 '  <Actions Context="Author"><Exec>$\r$\n'

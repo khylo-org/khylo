@@ -6,8 +6,8 @@ supports Intel/AMD (`amd64`) and ARM (`arm64`) hosts.
 
 <!-- khylo-downloads:docker -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-docker-26.11.11.01-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-docker-26.11.11.01-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.12.01/khylo-server-docker-26.11.12.01-amd64.tar"><img alt="Download DEV Docker" src="https://img.shields.io/badge/Download%20DEV-Docker-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.12.01/khylo-server-docker-26.11.12.01-arm64.tar"><img alt="Download DEV Docker (Arm)" src="https://img.shields.io/badge/Download%20DEV-Docker%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center">Or pull the image from GitHub (Intel/AMD and Arm): <code>docker pull ghcr.io/khylo-org/khylo-server:latest</code></p>
