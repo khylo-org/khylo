@@ -12,7 +12,7 @@
 ;
 ; How Khylo runs (the "Account" page): as the limited LocalService account (recommended: if Khylo were ever broken into, the rest of the PC
 ; is not), as the system (full access, what earlier versions did), or as a Windows account. When Khylo itself can't install updates (every
-; way except the system) a second task, "Khylo Update Helper", runs as the system every two minutes and installs an update the server has
+; way except the system) a second task, "Khylo Update Helper", runs as the system every minute and installs an update the server has
 ; staged, after checking its signature and checksum again (khylo.exe --apply-update; it ends at once when nothing is waiting).
 ; Silent uninstall: "C:\Program Files\Khylo\Uninstall.exe" /S   (keeps the library and settings)
 
@@ -409,7 +409,7 @@ Function CreateStartupTask
   ${EndIf}
 FunctionEnd
 
-; The update helper: a task that runs as the system every two minutes and installs an update the server has staged (khylo.exe
+; The update helper: a task that runs as the system every minute and installs an update the server has staged (khylo.exe
 ; --apply-update). It ends at once when nothing is waiting. It is only needed when Khylo itself can't install updates, which is every
 ; way of running except as the system; it re-checks the update's signature and checksum itself and only installs a newer build.
 Function CreateUpdateHelperTask
@@ -422,7 +422,7 @@ Function CreateUpdateHelperTask
   FileWriteUTF16LE /BOM $0 '<?xml version="1.0" encoding="UTF-16"?>$\r$\n'
   FileWriteUTF16LE $0 '<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">$\r$\n'
   FileWriteUTF16LE $0 '  <RegistrationInfo><Description>Installs the Khylo update the server has staged, after checking it again. Does nothing when no update is waiting.</Description></RegistrationInfo>$\r$\n'
-  FileWriteUTF16LE $0 '  <Triggers><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT2M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
+  FileWriteUTF16LE $0 '  <Triggers><TimeTrigger><StartBoundary>2026-01-01T00:00:00</StartBoundary><Enabled>true</Enabled><Repetition><Interval>PT1M</Interval></Repetition></TimeTrigger></Triggers>$\r$\n'
   FileWriteUTF16LE $0 '  <Principals><Principal id="Author"><UserId>S-1-5-18</UserId><RunLevel>HighestAvailable</RunLevel></Principal></Principals>$\r$\n'
   FileWriteUTF16LE $0 '  <Settings>$\r$\n'
   FileWriteUTF16LE $0 '    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>$\r$\n'

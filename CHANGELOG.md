@@ -2,6 +2,17 @@
 
 ## November 2026
 
+### Build DEV-V26.11.11.01
+**New**
+- **Server — Give Khylo access to a media folder from Khylo itself (Windows).** When Khylo runs as the limited Windows account and isn't allowed into a folder, the folder picker now says so and shows a "Give Khylo access to this folder" button. One click and Khylo can read that folder and what is inside it, and nothing else on the PC. A second option lets Khylo add and delete files there too, for recordings or deleting from Khylo. It usually takes under a minute.
+**Fixed**
+- **Server — A folder Khylo isn't allowed to open no longer looks empty.** Picking a media folder could show "No subdirectories found" although the folder was full, because Khylo wasn't allowed to read it. On every kind of server (Windows, Linux, Proxmox, Docker and Mac) the folder picker now says that Khylo isn't allowed in, which account it runs as, and the exact steps to fix it on that system.
+- **Web — No more "Server Mismatch" after installing Khylo again.** Removing Khylo and installing it fresh on the same PC showed a warning in front of the first-time setup. A new Khylo that nobody has set up yet now opens straight into setup. The warning stays for a different server that is already set up.
+- **Server — The note after an update always names the version you are running.** After updating to one build the Updates page could still say "Khylo updated to" the build before it. The note now only ever names the build that is running, and a leftover from an earlier update is thrown away instead of shown.
+- **Server — The update shows what it is really doing.** While Khylo updates, the Updates page counts the time from the server's own clock (so it is right after a page reload or a restart), says which version it is installing, and keeps an update log of each step: the signature check, the download, the checksum, the installer, and the new Khylo starting. The log stays on the page afterwards under Show update log.
+- **Web — Library switches and buttons show their change straight away.** Turning a library's automatic scanning on or off, renaming it, adding or removing a folder, or removing it now shows the result on the page at once, without a refresh.
+- **Web — You can see a library scan working.** Press Scan on a library and its row shows "Scan starting…", then the scan's progress, then a "Finished scanning" message, and keeps showing when it was last scanned.
+
 ### Build DEV-V26.11.10.02
 **New**
 - **Web — Scan just one library.** Every library on the Media Libraries page now has its own Scan button, so you can refresh one library without scanning all of them.

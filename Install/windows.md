@@ -7,8 +7,8 @@ ARM (`arm64`) PCs.
 
 <!-- khylo-downloads:windows -->
 <p align="center">
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-26.11.10.02-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
-<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.10.02/khylo-server-26.11.10.02-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-26.11.11.01-windows-x64-setup.exe"><img alt="Download DEV Windows" src="https://img.shields.io/badge/Download%20DEV-Windows-d97732?style=for-the-badge"></a>
+<a href="https://github.com/khylo-org/khylo/releases/download/DEV-V26.11.11.01/khylo-server-26.11.11.01-windows-arm64-setup.exe"><img alt="Download DEV Windows (Arm)" src="https://img.shields.io/badge/Download%20DEV-Windows%20(Arm)-d97732?style=flat"></a>
 </p>
 
 <p align="center">Windows may say it doesn't know the publisher (the installer isn't signed). Click <b>More info</b>, then <b>Run anyway</b>.</p>
@@ -35,9 +35,12 @@ The first start can take a minute or two while Khylo prepares its database.
 
 - **As a limited account made for services (recommended).** Khylo starts before anyone logs in and keeps running, as
   Windows' built-in *Local Service* account. If someone ever broke into Khylo, they would get that small account, not the
-  whole PC. Khylo can open the folders that every user of the PC can open (a data drive such as `D:\Media` usually is);
-  for a folder in someone's own profile, give *LOCAL SERVICE* read access (right-click the folder, Properties, Security).
-  If Khylo can't open a folder you add as a library, it tells you which account to give access to. Network folders work
+  whole PC. Khylo can open the folders that every user of the PC can open. For any other folder, the folder picker says
+  that Khylo isn't allowed in and shows **Give Khylo access to this folder**: click it and, usually within a minute, Khylo
+  can read that folder and what is inside it (tick the box to also let it add and delete files there, for recordings or
+  deleting from Khylo). A very big folder takes Windows longer. Khylo is never given Windows' own folders, the programs, or
+  a whole user profile this way: keep media in a folder of its own. You can also do it by hand: give *LOCAL SERVICE* access
+  to the folder (right-click it, Properties, Security). Network folders work
   through the login you give Khylo for them (see below). The dashboard can't restart or shut down the PC itself in this
   mode (restarting Khylo works).
 - **As the system, with full access (how earlier versions ran).** Khylo starts before anyone logs in and can open any
@@ -111,7 +114,7 @@ Your library and settings are kept, and Khylo is back within a minute or two.
 
 If Khylo runs as the system or as an administrator it installs the update itself. If it runs as the limited account (or as
 a regular Windows user), it can't install anything, so the installer also sets up a small **update helper**, a task that runs
-as the system every two minutes. Khylo downloads the update and checks it, then leaves it for the helper, which checks the
+as the system every minute. Khylo downloads the update and checks it, then leaves it for the helper, which checks the
 signature and the checksum again on its own, installs only a newer build, and puts the old version back if the new one
 doesn't start. In the dashboard it works the same way, with an extra minute or two. If the helper is missing (the
 installer couldn't set it up), the panel says so and you update the old way: download the new installer and run it. Either

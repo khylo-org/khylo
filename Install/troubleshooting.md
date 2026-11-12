@@ -58,7 +58,8 @@ different network segment (VLAN) or guest Wi-Fi for the TV, a firewall blocking 
 
 - **Khylo can't read the folder.** Linux: the `khylo` user needs permission (see the [Linux guide](linux.md)). Mac: give
   `/usr/local/khylo/khylo` **Full Disk Access** (see the [Mac guide](mac.md)). Windows: the account Khylo runs as must be able
-  to read the folder; for network shares use `-RunAsUser` (see the [Windows guide](windows.md)). Docker: the path you chose must
+  to read the folder. If the folder picker shows a full folder as one Khylo isn't allowed to open, click **Give Khylo access
+  to this folder** there; for network shares use `-RunAsUser` (see the [Windows guide](windows.md)). Docker: the path you chose must
   be the one *inside* the container (for example `/media/movies`).
 - **The names aren't recognised.** Use the usual layout (see [first-time setup](first-setup.md)). Put movies in their own folders
   with the year, and shows in `Show/Season 01/`.
