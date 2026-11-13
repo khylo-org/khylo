@@ -2,6 +2,23 @@
 
 ## November 2026
 
+### Build DEV-V26.11.13.02
+**New**
+- **Web — Artist Radio.** Start a radio for any artist from their page, from an album, from the music home or from the Now Playing panel. It plays their songs mixed with songs from artists who really sound like them (the same mix as the iPhone app), and never plays a song twice.
+- **Web — Make and change your own playlists.** Create a playlist with the + in your library, with the "Add to playlist" button beside any song, or by adding a whole album. Open one of your playlists to rename it, choose whether everyone on the server can see it, search for songs to add, drag songs into a new order (or move them with the arrow keys), take songs out, or delete the playlist. The songs always stay in your library.
+**Improved**
+- **Web — A new look for music.** The music home, artists, albums, songs, genres and the artist, album and playlist pages have a calmer, more polished look: a banner on the home and artist pages, round artist pictures, play buttons that appear when you point at something, and a soft colour on each page taken from its own cover.
+- **Web — The Now Playing page and the player.** The Now Playing page shows a big cover with the title, artist and controls beside the queue, and every queue row has its cover and artist. The player bar at the bottom now floats just above the page.
+- **Web — Back 10 and forward 30 seconds only where they help.** Those buttons now show for films, podcasts, audiobooks and long tracks, and no longer crowd the controls on an ordinary song.
+- **Web — Khylo opens with far fewer downloads.** The page needs much less to get started, which helps most when Khylo is reached through a slow or busy web address. A slow connection is also tried again before Khylo says the server is unavailable.
+**Fixed**
+- **Web — Songs no longer show a blank picture.** A song that has no picture of its own now shows its album's cover.
+
+### Build DEV-V26.11.13.01
+**Fixed**
+- **Server — Minor bug fixes.**
+- **Web — Minor bug fixes.**
+
 ### Build DEV-V26.11.12.01
 **Fixed**
 - **Server — Minor bug fixes.**
