@@ -13,6 +13,13 @@
 - **Web — Khylo opens with far fewer downloads.** The page needs much less to get started, which helps most when Khylo is reached through a slow or busy web address. A slow connection is also tried again before Khylo says the server is unavailable.
 **Fixed**
 - **Web — Songs no longer show a blank picture.** A song that has no picture of its own now shows its album's cover.
+- **Server — Guessing passwords is harder.** Wrong sign-in guesses are now counted the moment they arrive, so trying many at once no longer gets past the limit. Wrong password-reset codes are counted too, and a made-up user name now takes as long to answer as a real one, so nobody can tell which names exist.
+- **Server — Setup can't be finished without an administrator password.** A new Khylo can no longer be left with an administrator who has no password.
+- **Server — Limited profiles stay limited when playing.** A profile that can only open certain libraries, like a kids profile, can no longer play or read the subtitles of something in a library it can't open.
+- **Server — Only the owner of a playlist decides who sees it.** Someone who can edit a playlist can still change its songs and name, but not make it public or share it with others.
+- **Server — "No remote access" is respected everywhere.** Signing in with a code, and the server's admin tools, now follow an account's "no access from outside the home network" setting.
+- **Web — Play stays on screen on a short display.** The Play button on a film or show page is no longer pushed below the bottom of a laptop screen.
+- **Web — Smaller fixes.** "Add songs" on an empty playlist now opens the song search instead of closing it, the browser tab no longer keeps the title of the page you left, and adding a kids profile says plainly that you need a PIN of your own.
 
 ### Build DEV-V26.11.13.01
 **Fixed**
