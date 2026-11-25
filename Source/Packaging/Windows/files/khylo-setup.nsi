@@ -46,6 +46,19 @@ RequestExecutionLevel admin
 !define HELPER_TASK_NAME "Khylo Update Helper"
 !define WEB_URL "http://localhost:8096"
 
+; Removes a folder and everything in it without writing every file to the progress window. RMDir /r deletes one file at a time and,
+; by default, adds a "Delete file: ..." line to the window and the label above the bar for each one, so a folder with tens of
+; thousands of small files (the web client, a backup copy of the old version) spends most of its time redrawing the window and looks
+; frozen. With the details switched off the same delete only does the deleting. (Tried and not used: robocopy from an empty folder
+; was slower than a plain delete on 20,000 small files, and RMDir /r is the one that never follows a link left in the folder's place.)
+!macro QuietRemoveTree dir
+  ${If} ${FileExists} "${dir}\*.*"
+    SetDetailsPrint none
+    RMDir /r "${dir}"
+    SetDetailsPrint both
+  ${EndIf}
+!macroend
+
 Name "Khylo Server"
 OutFile "${OUTFILE}"
 BrandingText "Khylo Server ${BUILD}"
@@ -243,7 +256,8 @@ Section "Khylo Server" SecMain
   Pop $0
   Sleep 3000
   ${If} ${FileExists} "$INSTDIR\khylo.exe"
-    RMDir /r "$INSTDIR"
+    DetailPrint "Removing the old program files..."
+    !insertmacro QuietRemoveTree "$INSTDIR"
   ${EndIf}
 
   DetailPrint "Copying Khylo..."
@@ -524,8 +538,10 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Khylo"
 
   ; Only ever the Khylo folder (the installer makes sure the folder is called Khylo)
-  RMDir /r "$INSTDIR"
-  RMDir /r "$APPDATA\KhyloUpdate"
+  DetailPrint "Removing Khylo's program files..."
+  !insertmacro QuietRemoveTree "$INSTDIR"
+  DetailPrint "Removing the update files..."
+  !insertmacro QuietRemoveTree "$APPDATA\KhyloUpdate"
 
   ${IfNot} ${Silent}
     MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 "Also delete your Khylo library, users and settings in $APPDATA\Khylo?$\r$\n$\r$\nThis cannot be undone. Choose No to keep them (for example if you plan to install Khylo again)." /SD IDNO IDNO keepData
