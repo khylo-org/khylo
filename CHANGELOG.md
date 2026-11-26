@@ -2,6 +2,10 @@
 
 ## November 2026
 
+### Build DEV-V26.11.25.03
+**Fixed**
+- **Server — Uninstalling Khylo on Windows takes seconds.** Choosing to delete your library while uninstalling could keep the uninstaller busy for many minutes on a big library. It now finishes in seconds: your library is moved out of the way at once and its files are cleared in the background, so the disk space comes back over the next few minutes.
+
 ### Build DEV-V26.11.25.02
 **Improved**
 - **Server — Uninstalling and updating Khylo on Windows is quicker.** The uninstaller and the updater no longer draw a line in their window for every file they delete, which slowed removing thousands of files to a crawl. Khylo also deletes its backup of the old version as soon as the new one is running, instead of leaving a second copy of the program on the disk until the next update or the uninstall.

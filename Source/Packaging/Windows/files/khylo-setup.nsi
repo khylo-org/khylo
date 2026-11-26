@@ -59,6 +59,42 @@ RequestExecutionLevel admin
   ${EndIf}
 !macroend
 
+; For the uninstaller: takes a folder away in no time, however many files it holds. Deleting a library of a million files takes
+; minutes whatever does it, so the folder is only renamed here (instant on the same drive) and a hidden process deletes it after the
+; uninstaller has moved on. The renamed folder keeps its permissions and its own name, so a reinstall straight away is not touched.
+; Only if something still holds a file open after five tries is it deleted here, the slow way. A link left in the folder's place is
+; removed itself and never followed.
+!macro RemoveTreeLater dir
+  ${If} ${FileExists} "${dir}\*.*"
+    StrCpy $6 "${dir}"
+    System::Call 'kernel32::GetFileAttributesW(w r6) i .r8'
+    IntOp $8 $8 & 0x400
+    ${If} $8 != 0
+      RMDir "${dir}"
+    ${Else}
+      StrCpy $7 0
+      ${Do}
+        ; a new name on every try, so a folder already there under the last one can't block it
+        System::Call 'kernel32::GetTickCount() i .r9'
+        ClearErrors
+        Rename "${dir}" "${dir}-removing-$9"
+        ${IfNot} ${Errors}
+          ${ExitDo}
+        ${EndIf}
+        Sleep 1000
+        IntOp $7 $7 + 1
+      ${LoopUntil} $7 >= 5
+      ${If} $7 < 5
+        ExecShell "open" "$SYSDIR\cmd.exe" '/c rmdir /s /q "${dir}-removing-$9"' SW_HIDE
+      ${Else}
+        SetDetailsPrint none
+        RMDir /r "${dir}"
+        SetDetailsPrint both
+      ${EndIf}
+    ${EndIf}
+  ${EndIf}
+!macroend
+
 Name "Khylo Server"
 OutFile "${OUTFILE}"
 BrandingText "Khylo Server ${BUILD}"
@@ -282,6 +318,9 @@ Section "Khylo Server" SecMain
   Pop $0
   nsExec::ExecToLog 'icacls "$APPDATA\KhyloUpdate" /inheritance:r /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F /Q'
   Pop $0
+
+  ; Folders an uninstall was still deleting when the PC restarted
+  ExecShell "open" "$SYSDIR\cmd.exe" '/c for /d %i in ("$APPDATA\Khylo*-removing-*" "$INSTDIR-removing-*") do rmdir /s /q "%~i"' SW_HIDE
 
   ; The library, settings, cache and logs live apart from the program, so updates never touch them
   CreateDirectory "$APPDATA\Khylo"
@@ -515,6 +554,11 @@ Section "Uninstall"
   SetRegView 64
 
   DetailPrint "Stopping Khylo..."
+  ; Nothing may be left holding a folder open, or it can't be renamed below: the uninstaller's own working folder is moved out,
+  ; and Khylo is ended together with what it started (ffmpeg)
+  SetOutPath "$TEMP"
+  nsExec::Exec 'taskkill /F /T /IM khylo.exe'
+  Pop $0
   nsExec::ExecToLog 'schtasks /End /TN "${TASK_NAME}"'
   Pop $0
   nsExec::ExecToLog 'schtasks /Delete /TN "${TASK_NAME}" /F'
@@ -539,21 +583,14 @@ Section "Uninstall"
 
   ; Only ever the Khylo folder (the installer makes sure the folder is called Khylo)
   DetailPrint "Removing Khylo's program files..."
-  !insertmacro QuietRemoveTree "$INSTDIR"
+  !insertmacro RemoveTreeLater "$INSTDIR"
   DetailPrint "Removing the update files..."
-  !insertmacro QuietRemoveTree "$APPDATA\KhyloUpdate"
+  !insertmacro RemoveTreeLater "$APPDATA\KhyloUpdate"
 
   ${IfNot} ${Silent}
     MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 "Also delete your Khylo library, users and settings in $APPDATA\Khylo?$\r$\n$\r$\nThis cannot be undone. Choose No to keep them (for example if you plan to install Khylo again)." /SD IDNO IDNO keepData
-    ; A library holds tens of thousands of small files (artwork, metadata); NSIS deletes them one by one and shows nothing,
-    ; which looks frozen. Windows' robocopy empties a folder in parallel, many times faster.
-    DetailPrint "Deleting your library, users and settings (this can take a few minutes)..."
-    CreateDirectory "$TEMP\khylo-empty"
-    nsExec::ExecToLog 'robocopy "$TEMP\khylo-empty" "$APPDATA\Khylo" /MIR /MT:64 /R:0 /W:0 /NFL /NDL /NJH /NJS /NP'
-    Pop $0
-    RMDir "$TEMP\khylo-empty"
-    ; whatever robocopy could not remove (a locked file): the plain way
-    RMDir /r "$APPDATA\Khylo"
+    DetailPrint "Deleting your library, users and settings..."
+    !insertmacro RemoveTreeLater "$APPDATA\Khylo"
     keepData:
   ${EndIf}
 SectionEnd
